@@ -1,0 +1,63 @@
+.card {
+  border: none;
+  background-color: #ffffff;
+}
+
+.form-control-lg {
+  border: 1px solid #e0e0e0;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  background-color: #fff !important;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+}
+
+.bg-insta {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+}
+
+.input-group-text {
+  border-radius: 10px 0 0 10px !important;
+  border: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.btn-primary {
+  background-color: #000; /* Preto moderno como na imagem */
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+/* Camada que cobre o formulário durante a busca */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  border-radius: 15px;
+}
+
+/* Suaviza a transição quando o formulário fica opaco */
+form {
+  transition: opacity 0.3s ease;
+}
+
+/* Deixa o spinner um pouco maior */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
