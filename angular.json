@@ -16,7 +16,20 @@
       "architect": {
         "build": {
           "builder": "@angular/build:application",
-          "options": {
+          "options": {"allowedCommonJsDependencies": ["sweetalert2"],
+
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "1mb",
+            "maximumError": "2mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "2kb",
+            "maximumError": "4kb"
+          }
+        ],
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
 "assets": [
@@ -28,23 +41,24 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ]
+
           },
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
-            },
+{
+        "type": "initial",
+        "maximumWarning": "1MB",
+        "maximumError": "2MB"
+      },
+      {
+        "type": "anyComponentStyle",
+        "maximumWarning": "4kB",
+        "maximumError": "8kB"
+      }
+    ],
+    "outputHashing": "all"
+  },
             "development": {
               "optimization": false,
               "extractLicenses": false,

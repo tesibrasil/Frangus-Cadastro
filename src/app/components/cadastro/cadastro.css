@@ -117,7 +117,7 @@ form {
   font-family: 'Namaku', sans-serif;
   /* Mudei de #555 (cinza) para o azul do cabeçalho */
   color: rgb(48, 48, 132);
-  font-weight: 600; /* Um pouco mais forte para NAMAKU aparecer bem */
+  font-weight: 600; /* Um pouco mais forte para Namaku aparecer bem */
   margin-bottom: 0.25rem; /* Espaço pequeno abaixo da label */
   display: block; /* Garante que a margem funcione */
 }
