@@ -98,7 +98,7 @@ form {
 
 .header-title {
   color: #fff;
-  font-family: 'NAMAKU', sans-serif;
+  font-family: 'Namaku', sans-serif;
   font-size: 1.8rem;
   margin: 0;
 }
@@ -114,7 +114,7 @@ form {
 
 /* Estilo para os labels dos campos */
 .text-label {
-  font-family: 'NAMAKU', sans-serif;
+  font-family: 'Namaku', sans-serif;
   /* Mudei de #555 (cinza) para o azul do cabeçalho */
   color: rgb(48, 48, 132);
   font-weight: 600; /* Um pouco mais forte para NAMAKU aparecer bem */
@@ -157,7 +157,7 @@ form {
 .btn-frangos {
   background-color: #1a1a7a; /* Um azul mais escuro, similar à imagem */
   color: #fff;
-  font-family: 'NAMAKU', sans-serif;
+  font-family: 'Namaku', sans-serif;
   letter-spacing: 1px;
   border: none;
   transition: transform 0.2s ease, background-color 0.2s ease;
@@ -190,7 +190,7 @@ form {
 
 /* Força o texto DIGITADO a não ficar em negrito */
 .form-control {
-  font-family: 'NAMAKU', sans-serif; /* Garante a fonte nos inputs */
+  font-family: 'Namaku', sans-serif; /* Garante a fonte nos inputs */
   font-weight: normal !important; /* Força o peso normal */
   font-size: 1rem; /* Tamanho padrão */
   color: #333; /* Uma cor de texto digitado mais suave que preto puro */
