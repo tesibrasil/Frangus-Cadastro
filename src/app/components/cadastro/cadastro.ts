@@ -201,6 +201,12 @@ formatarRg(v: string): string {
   return v.replace(/(\d{2})(\d{3})(\d{3})([0-9X])/, '$1.$2.$3-$4');
 }
 
+formatarEmail() {
+  if (this.atleta.email) {
+    this.atleta.email = this.atleta.email.toLowerCase().trim();
+  }
+}
+
   verificarCpfAoDigitar() {
   // Remove qualquer caractere que não seja número (prevenção)
   const cpfLimpo = this.atleta.cpf.replace(/\D/g, '');
@@ -244,8 +250,8 @@ exibirErroValidacao(titulo: string, mensagem: string) {
   Swal.fire({
     title: titulo,
     text: mensagem,
-    imageUrl: '/assets/img/logo-frangus.png',
-    imageHeight: 120,
+    imageUrl: '/assets/img/cabeca-frangus-triste.png',
+    imageHeight: 250,
     confirmButtonColor: '#dc3545',
     confirmButtonText: 'Corrigir',
     heightAuto: false
@@ -265,6 +271,36 @@ exibirErroValidacao(nomeCampo: string) {
   });
 }
 */
+
+// Funções de apoio para limpar o código
+sucessoAoSalvar(isNovo: boolean) {
+  Swal.fire({
+    title: 'Sucesso!',
+    text: 'O Frangolinu inscrito com sucesso!',
+    imageUrl: '/assets/img/cabeca-frangus-feliz.png', // Seu logo aqui
+    //imageAlt: 'Logo Frangos',
+    imageHeight: 250,
+    icon: 'success',
+    confirmButtonColor: 'rgb(48, 48, 132)', // O azul do seu cabeçalho
+    confirmButtonText: 'Ótimo!',
+    heightAuto: false // Evita conflitos de layout no Angular
+  });
+  this.reset();
+}
+
+erroAoSalvar() {
+  Swal.fire({
+    title: 'Erro',
+    text: 'Não foi possível salvar na planilha.',
+    imageUrl: '/assets/img/cabeca-frangus-triste.png',
+    imageHeight: 250,
+    confirmButtonColor: '#dc3545',
+    confirmButtonText: 'Fechar',
+    heightAuto: false
+  });
+  this.carregando = false;
+}
+
 
 
 enviar() {
@@ -348,6 +384,7 @@ for (let item of obrigatorios) {
   }
 
     this.formatarInstagram();
+    this.formatarEmail();
 
     const dadosParaSalvar = {
 
@@ -358,35 +395,24 @@ for (let item of obrigatorios) {
     telefone: this.atleta.telefone.replace(/\D/g, ''),
     rg: this.atleta.rg.replace(/[\.\-]/g, '') // Aproveita e limpa o RG também
   };
-    this.atletaService.salvar(dadosParaSalvar).subscribe({
-    next: () => {
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'O Frangolinu foi cadastrado com sucesso!',
-        imageUrl: '/assets/img/logo-frangus.png', // Seu logo aqui
-        //imageAlt: 'Logo Frangos',
-        imageHeight: 150,
-        icon: 'success',
-        confirmButtonColor: 'rgb(48, 48, 132)', // O azul do seu cabeçalho
-        confirmButtonText: 'Ótimo!',
-        heightAuto: false // Evita conflitos de layout no Angular
-      });
-      this.atleta = { id: 0, cpf: '', nome: '', nascimento: '', telefone: '', rg: '', email: '', instagram: '' };
 
-      this.cdr.detectChanges();
-      this.carregando = false
-    },
-    error: () => {
-      Swal.fire({
-        title: 'Ops!',
-        text: 'Houve um erro ao salvar os dados. Tente novamente.',
-        icon: 'error',
-        confirmButtonColor: '#d33'
-      });
-      this.carregando = false;
-    }
-  });
+ if (this.novoAtleta) {
+    // É um cadastro novo: usamos POST (salvar)
+    this.atletaService.salvar(dadosParaSalvar).subscribe({
+      next: () => this.sucessoAoSalvar(true),
+      error: () => this.erroAoSalvar()
+    });
+  } else {
+    // Já existe: usamos PATCH (atualizar)
+    // Passamos o CPF original para o SheetDB encontrar a linha certa
+    this.atletaService.atualizar(this.atleta.cpf.replace(/\D/g, ''), dadosParaSalvar).subscribe({
+      next: () => this.sucessoAoSalvar(false),
+      error: () => this.erroAoSalvar()
+    });
+  }
 }
+
+
 reset() {
   this.atleta = { id: 0, cpf: '', nome: '', nascimento: '', telefone: '', rg: '', email: '', instagram: '' };
   this.novoAtleta = false; // Esconde o aviso de novo atleta ao resetar
@@ -394,4 +420,7 @@ reset() {
   this.campoComErro = ''; // Limpa qualquer destaque de campo com erro
   this.cdr.detectChanges(); // Garante que a tela atualize imediatamente
 }
+
+
+
 }

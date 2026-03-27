@@ -78,7 +78,8 @@
             <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'email'}">
               <span class="input-group-text bg-white border-0"><i class="bi bi-envelope"></i></span>
               <input type="email" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.email" name="email"
-                tabindex="6" placeholder="exemplo@email.com" [disabled]="carregando" (input)="campoComErro = ''">
+                tabindex="6" placeholder="exemplo@email.com" (blur)="formatarEmail()" [disabled]="carregando"
+                (input)="campoComErro = ''">
             </div>
           </div>
         </div>
