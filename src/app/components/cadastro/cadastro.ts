@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MaskCpfDirective } from '../../directives/mask-cpf';
 import { MaskTelDirective } from '../../directives/mask-tel';
 import { MaskRgDirective } from '../../directives/mask-rg';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cadastro',
@@ -30,12 +30,14 @@ export class CadastroComponent {
 };
 
 carregando = false; // Controle de estado
+campoComErro: string = ''; // Para destacar o campo com erro
 
   constructor(
     private atletaService: AtletaService,
     private cdr: ChangeDetectorRef
   ) {}
 
+  /*
   verificarCpf() {
     if (this.atleta.cpf.length >= 11) {
       this.atletaService.buscarPorCpf(this.atleta.cpf).subscribe(res => {
@@ -116,10 +118,12 @@ verificarCpf3() {
           this.carregando = false;
         }
       });
+     // this.carregando = false;
     }
   }
+*/
 
-  verificarCpf5() {
+  verificarCpf() {
   // Limpa a máscara para a lógica de busca
   const cpfApenasNumeros = this.atleta.cpf.replace(/\D/g, '');
 
@@ -152,6 +156,7 @@ verificarCpf3() {
         else{
           this.novoAtleta = true; // Mostra o formulário para novo atleta
           this.limparCamposExcetoCpf();
+          this.carregando = false; // Para o loading mesmo se não encontrar, para mostrar o formulário de novo atleta
         }
         this.cdr.detectChanges();
         this.carregando = false;
@@ -225,16 +230,129 @@ formatarRg(v: string): string {
   }
 }
 
-  enviar() {
-    this.carregando = true;
+formatarInstagram() {
+  if (this.atleta.instagram) {
+    let insta = this.atleta.instagram.trim().toLowerCase();
+    if (!insta.startsWith('@')) {
+      insta = '@' + insta;
+    }
+    this.atleta.instagram = insta;
+  }
+}
+
+exibirErroValidacao(titulo: string, mensagem: string) {
+  Swal.fire({
+    title: titulo,
+    text: mensagem,
+    imageUrl: '/assets/img/logo-frangus.png',
+    imageHeight: 120,
+    confirmButtonColor: '#dc3545',
+    confirmButtonText: 'Corrigir',
+    heightAuto: false
+  });
+}
+
+/*
+exibirErroValidacao(nomeCampo: string) {
+  Swal.fire({
+    title: 'Campo Obrigatório!',
+    text: `O campo "${nomeCampo}" precisa ser preenchido.`,
+    imageUrl: '/assets/img/logo-frangos.png', // Ou uma imagem do frango "bravo/triste"
+    imageHeight: 150,
+    confirmButtonColor: '#d33',
+    confirmButtonText: 'Vou preencher!',
+    heightAuto: false
+  });
+}
+*/
+
+
+enviar() {
+
+  this.campoComErro = '';
+  //this.carregando = true;
+
+  /*
+  type AtletaKeys = 'id' | 'cpf' | 'nome' | 'nascimento' | 'telefone' | 'rg' | 'email' | 'instagram';
+
+  const obrigatorios: { campo: AtletaKeys, nome: string }[] = [
+    { campo: 'cpf', nome: 'CPF' },
+    { campo: 'nome', nome: 'Nome Completo' },
+    { campo: 'nascimento', nome: 'Data de Nascimento' },
+    { campo: 'telefone', nome: 'Telefone' },
+    { campo: 'rg', nome: 'RG' },
+    { campo: 'email', nome: 'E-mail' }
+  ];
+
+for (let item of obrigatorios) {
+    const valor = String(this.atleta[item.campo] || '').trim();
+    if (!valor) {
+      this.campoComErro = item.campo;
+      this.exibirErroValidacao(item.nome);
+      return;
+    }
+  }
+  */
+
+  type AtletaKeys = 'id' | 'cpf' | 'nome' | 'nascimento' | 'telefone' | 'rg' | 'email' | 'instagram';
+  const obrigatorios: { campo: AtletaKeys, nome: string, regra?: () => boolean, msg?: string }[] = [
+    {
+      campo: 'cpf',
+      nome: 'CPF',
+      regra: () => this.atleta.cpf.replace(/\D/g, '').length === 11,
+      msg: 'O CPF deve conter exatamente 11 dígitos.'
+    },
+    {
+      campo: 'nome',
+      nome: 'Nome Completo'
+    },
+    {
+      campo: 'nascimento',
+      nome: 'Data de Nascimento'
+    },
+    {
+      campo: 'telefone',
+      nome: 'Telefone',
+      regra: () => this.atleta.telefone.replace(/\D/g, '').length === 11,
+      msg: 'O Telefone deve ter o DDD + 9 dígitos (total 11).'
+    },
+    {
+      campo: 'rg',
+      nome: 'RG'
+    },
+    {
+      campo: 'email',
+      nome: 'E-mail',
+      regra: () => this.atleta.email.includes('@'),
+      msg: 'O E-mail informado é inválido (falta o @).'
+    }
+  ];
+
+  // 3. Execução da validação
+  for (let item of obrigatorios) {
+    const valor = String(this.atleta[item.campo] || '').trim();
+
+    // Verifica se está vazio
+    if (!valor) {
+      this.campoComErro = item.campo;
+      this.exibirErroValidacao(item.nome, `O campo "${item.nome}" é obrigatório.`);
+      return;
+    }
+
+    // Verifica a regra específica (comprimento/formato)
+    if (item.regra && !item.regra()) {
+      this.campoComErro = item.campo;
+      this.exibirErroValidacao(item.nome, item.msg || 'Formato inválido.');
+      return;
+    }
+  }
+
+    this.formatarInstagram();
 
     const dadosParaSalvar = {
 
     ...this.atleta,
     id: 0,
-    nome: this.atleta.nome,
-    nascimento: this.atleta.nascimento,
-    email: this.atleta.email,
     instagram: this.atleta.instagram,
     cpf: this.atleta.cpf.replace(/\D/g, ''),
     telefone: this.atleta.telefone.replace(/\D/g, ''),
@@ -242,14 +360,29 @@ formatarRg(v: string): string {
   };
     this.atletaService.salvar(dadosParaSalvar).subscribe({
     next: () => {
-      alert('Atleta salvo com sucesso!');
+      Swal.fire({
+        title: 'Sucesso!',
+        text: 'O Frangolinu foi cadastrado com sucesso!',
+        imageUrl: '/assets/img/logo-frangus.png', // Seu logo aqui
+        //imageAlt: 'Logo Frangos',
+        imageHeight: 150,
+        icon: 'success',
+        confirmButtonColor: 'rgb(48, 48, 132)', // O azul do seu cabeçalho
+        confirmButtonText: 'Ótimo!',
+        heightAuto: false // Evita conflitos de layout no Angular
+      });
       this.atleta = { id: 0, cpf: '', nome: '', nascimento: '', telefone: '', rg: '', email: '', instagram: '' };
 
       this.cdr.detectChanges();
       this.carregando = false
     },
     error: () => {
-      alert('Erro ao salvar dados.');
+      Swal.fire({
+        title: 'Ops!',
+        text: 'Houve um erro ao salvar os dados. Tente novamente.',
+        icon: 'error',
+        confirmButtonColor: '#d33'
+      });
       this.carregando = false;
     }
   });
@@ -258,6 +391,7 @@ reset() {
   this.atleta = { id: 0, cpf: '', nome: '', nascimento: '', telefone: '', rg: '', email: '', instagram: '' };
   this.novoAtleta = false; // Esconde o aviso de novo atleta ao resetar
   this.carregando = false; // Garante que o estado de carregamento seja resetado
+  this.campoComErro = ''; // Limpa qualquer destaque de campo com erro
   this.cdr.detectChanges(); // Garante que a tela atualize imediatamente
 }
 }

@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+/* Carregando a fonte NAMAKU */
+@font-face {
+  font-family: 'NAMAKU';
+  src: url('assets/fonts/NAMAKU.ttf') format('truetype'); /* Ajuste o caminho se necessário */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Aplicando a fonte para o corpo do site */
+body {
+  font-family: 'NAMAKU', 'Helvetica Neue', sans-serif; /* NAMAKU primeiro */
+  background-color: #f4f7f6; /* Um fundo mais claro para contrastar */
+}
+
+/* Borda vermelha piscante para destaque */
+.input-error {
+  border: 2px solid #dc3545 !important;
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}

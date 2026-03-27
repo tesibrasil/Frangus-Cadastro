@@ -1,87 +1,112 @@
-<div class="container mt-5">
-  <div class="card shadow-lg border-0 rounded-4">
-    <div class="card-header bg-dark text-white p-4 rounded-top-4">
-      <h3 class="mb-0 fw-bold"><i class="bi bi-person-badge me-2"></i>Ficha do Atleta</h3>
+<div class="container mt-5 mb-5">
+  <div class="card shadow-lg border-0 rounded-4 position-relative main-card">
+
+    <!-- <div *ngIf="carregando"
+      class="loading-overlay d-flex flex-column justify-content-center align-items-center rounded-4">
+      <div class="spinner-border text-primary mb-2" style="width: 3rem; height: 3rem;" role="status"></div>
+      <span class="fw-bold text-dark text-uppercase" style="letter-spacing: 1px;">Buscando Frangolinu...</span>
+    </div> -->
+
+    <div class="card-header frangos-header p-4 d-flex align-items-center rounded-top-4">
+      <img src="/assets/img/logo-frangus.png" alt="Logo Frangos" class="header-logo me-3">
+      <h3 class="mb-0 fw-bold header-title">FICHA DO FRANGOLINU</h3>
     </div>
-    <div class="card-body p-4">
-      <form (submit)="enviar()" (reset)="reset()">
 
+    <div class="card-body p-4 bg-white">
+      <form (submit)="enviar()" (reset)="reset()" [class.opacity-25]="carregando">
 
         <div class="row g-3 mb-3">
           <div class="col-md-4">
-            <label class="form-label fw-semibold">CPF</label>
-            <input type="text" class="form-control form-control-lg bg-light" [(ngModel)]="atleta.cpf" name="cpf"
-              tabindex="1" appMaskCpf (input)="verificarCpf5()" (change)="verificarCpf5()" (blur)="verificarCpf5()"
-              placeholder="000.000.000-00" maxlength="14">
-            <div *ngIf="novoAtleta" class="mt-2 animate__animated animate__fadeIn">
-              <span class="badge rounded-pill bg-info text-dark">
-                <i class="bi bi-person-plus-fill me-1"></i> Novo Atleta detectado
-              </span>
+            <label class="form-label fw-semibold text-label">CPF</label>
+            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'cpf'}">
+              <span class="input-group-text bg-white border-0"><i class="bi bi-credit-card"></i></span>
+              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.cpf" name="cpf"
+                tabindex="1" appMaskCpf (change)="verificarCpf()" placeholder="000.000.000-00" maxlength="14"
+                [disabled]="carregando" (input)="campoComErro = ''">
+              <!-- <div *ngIf="novoAtleta" class="mt-2 text-center animate__animated animate__fadeIn">
+                <span class="badge rounded-pill bg-info text-dark">
+                  <i class="bi bi-person-plus-fill me-1"></i> Novo Frangolinu detectado
+                </span>
+              </div> -->
             </div>
           </div>
           <div class="col-md-8">
-            <label class="form-label fw-semibold">Nome Completo</label>
-            <input type="text" class="form-control form-control-lg bg-light" [(ngModel)]="atleta.nome" name="nome"
-              tabindex="2" placeholder="Nome do atleta">
-          </div>
-        </div>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label class="form-label fw-semibold">Data de Nascimento</label>
-            <input type="date" class="form-control form-control-lg bg-light" [(ngModel)]="atleta.nascimento" name="nasc"
-              tabindex="3">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-semibold">Telefone / WhatsApp</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-whatsapp"></i></span>
-              <input type="text" class="form-control form-control-lg bg-light" [(ngModel)]="atleta.telefone" name="tel"
-                tabindex="4" appMaskTel placeholder="(00) 00000-0000">
+            <label class="form-label fw-semibold text-label">Nome Completo</label>
+            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'nome'}">
+              <span class="input-group-text bg-white border-0"><i class="bi bi-person"></i></span>
+              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.nome" name="nome"
+                tabindex="2" placeholder="Nome Completo" [disabled]="carregando" (input)="campoComErro = ''">
             </div>
           </div>
         </div>
 
         <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-label">Data de Nascimento</label>
+            <div class="input-group input-group-lg styled-input"
+              [ngClass]="{'input-error': campoComErro === 'nascimento'}">
+              <span class="input-group-text bg-white border-0"><i class="bi bi-calendar3"></i></span>
+              <input type="date" class="form-control bg-light border-0 ps-0" name="nascimento"
+                [(ngModel)]="atleta.nascimento" name="nasc" tabindex="3" [disabled]="carregando"
+                (input)="campoComErro = ''">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-label">Telefone / WhatsApp</label>
+            <div class="input-group input-group-lg styled-input"
+              [ngClass]="{'input-error': campoComErro === 'telefone'}">
+              <span class="input-group-text bg-white border-0"><i class="bi bi-whatsapp"></i></span>
+              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.telefone" name="tel"
+                tabindex="4" appMaskTel placeholder="(00) 00000-0000" [disabled]="carregando"
+                (input)="campoComErro = ''">
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-3">
           <div class="col-md-4">
-            <label class="form-label fw-semibold">RG</label>
-            <input type="text" class="form-control form-control-lg bg-light" [(ngModel)]="atleta.rg" name="rg"
-              tabindex="5" appMaskRg placeholder="00.000.000-0" maxlength="12">
+            <label class="form-label fw-semibold text-label">RG</label>
+            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'rg'}">
+              <span class="input-group-text bg-white border-0"><i class="bi bi-card-checklist"></i></span>
+              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.rg" name="rg"
+                tabindex="5" appMaskRg placeholder="00.000.000-0" maxlength="12" [disabled]="carregando"
+                (input)="campoComErro = ''">
+            </div>
           </div>
           <div class="col-md-8">
-            <label class="form-label fw-semibold">E-mail</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-              <input type="email" class="form-control form-control-lg bg-light" [(ngModel)]="atleta.email" name="email"
-                tabindex="6" placeholder="atleta@exemplo.com">
+            <label class="form-label fw-semibold text-label">E-mail</label>
+            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'email'}">
+              <span class="input-group-text bg-white border-0"><i class="bi bi-envelope"></i></span>
+              <input type="email" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.email" name="email"
+                tabindex="6" placeholder="exemplo@email.com" [disabled]="carregando" (input)="campoComErro = ''">
             </div>
           </div>
         </div>
 
         <div class="row g-3 mb-4">
           <div class="col-12">
-            <label class="form-label fw-semibold">Instagram</label>
-            <div class="input-group">
-              <span class="input-group-text bg-insta text-white border-0">
-                <i class="bi bi-instagram"></i>
-              </span>
-              <input type="text" class="form-control form-control-lg bg-light" [(ngModel)]="atleta.instagram"
-                name="insta" tabindex="7" placeholder="@perfil">
+            <label class="form-label fw-semibold text-label">Instagram</label>
+            <div class="input-group input-group-lg styled-input insta-group">
+              <span class="input-group-text bg-insta border-0 text-white"><i class="bi bi-instagram"></i></span>
+              <input type="text" class="form-control bg-light border-0" [(ngModel)]="atleta.instagram" name="insta"
+                tabindex="7" placeholder="@seu_perfil" [disabled]="carregando" (blur)="formatarInstagram()">
             </div>
           </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mt-4">
-          <button type="reset" class="btn btn-link text-decoration-none text-muted p-0">Limpar campos</button>
-          <!-- <button type="submit" class="btn btn-dark btn-lg px-5 rounded-pill shadow-sm" [disabled]="carregando">
-            <span *ngIf="!carregando">
-              {{ novoAtleta ? 'Cadastrar Novo Atleta' : 'Atualizar Dados' }}
-              <i class="bi bi-arrow-right ms-2"></i>
+
+
+        <div class="d-flex justify-content-between align-items-center mt-5">
+          <button type="reset" class="btn btn-link text-decoration-none text-muted fw-light p-0"
+            [disabled]="carregando">Limpar campos</button>
+
+          <button type="submit" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" [disabled]="carregando">
+            Enviar
+            <!-- <span *ngIf="!carregando" class="d-flex align-items-center">
+              {{ novoAtleta ? 'ENVIAR CADASTRO' : 'ATUALIZAR' }}
+              <img src="/assets/img/icon-frangus.png" alt="Ícone Frango" class="btn-icon ms-2">
             </span>
-            <span *ngIf="carregando" class="spinner-border spinner-border-sm"></span>
-          </button> -->
-          <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow">
-            Salvar Atleta <i class="bi bi-check2-circle ms-2"></i>
+            <span *ngIf="carregando" class="spinner-border spinner-border-sm"></span> -->
           </button>
         </div>
 
