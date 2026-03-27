@@ -3,6 +3,25 @@
   background-color: #ffffff;
 }
 
+.main-card {
+  border-radius: 25px !important; /* Arredondamento bem visível conforme a imagem */
+  overflow: hidden; /* Isso "corta" os cantos dos filhos para seguirem a curva do pai */
+  border: none;
+}
+
+/* Garante que o cabeçalho acompanhe o arredondamento superior */
+.frangos-header {
+  border-top-left-radius: 25px !important;
+  border-top-right-radius: 25px !important;
+  border-bottom: 0;
+}
+
+/* Garante que o rodapé/corpo acompanhe o arredondamento inferior */
+.card-body {
+  border-bottom-left-radius: 25px !important;
+  border-bottom-right-radius: 25px !important;
+}
+
 .form-control-lg {
   border: 1px solid #e0e0e0;
   font-size: 1rem;
@@ -61,3 +80,154 @@ form {
   width: 3rem;
   height: 3rem;
 }
+
+/* Cor do Cabeçalho Personalizada (R: 48, G: 48, B: 132) */
+/* Altura fixa para o cabeçalho não esticar */
+.frangos-header {
+  background-color: rgb(48, 48, 132);
+  height: 80px; /* Definimos uma altura fixa para o azul */
+  position: relative; /* Necessário para o logo se basear aqui */
+  display: flex;
+  align-items: center;
+  padding-left: 110px !important; /* Abre espaço para o logo que vai ficar por cima */
+  /* Garante que o cabeçalho acompanhe o arredondamento superior */
+  border-top-left-radius: 25px !important;
+  border-top-right-radius: 25px !important;
+  border-bottom: 0;
+}
+
+.header-title {
+  color: #fff;
+  font-family: 'NAMAKU', sans-serif;
+  font-size: 1.8rem;
+  margin: 0;
+}
+.header-logo {
+  height: 100px; /* Agora você pode aumentar para 100, 120 ou quanto quiser */
+  width: auto;
+  position: absolute; /* Ele "flutua" sobre o layout */
+  left: 20px;
+  /*top: -20px;  Joga o logo um pouco para cima, saindo do azul se desejar */
+  z-index: 5;
+  filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.3)); /* Dá profundidade */
+}
+
+/* Estilo para os labels dos campos */
+.text-label {
+  font-family: 'NAMAKU', sans-serif;
+  /* Mudei de #555 (cinza) para o azul do cabeçalho */
+  color: rgb(48, 48, 132);
+  font-weight: 600; /* Um pouco mais forte para NAMAKU aparecer bem */
+  margin-bottom: 0.25rem; /* Espaço pequeno abaixo da label */
+  display: block; /* Garante que a margem funcione */
+}
+
+/* Estilo moderno para os inputs, similar à imagem */
+.styled-input {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #f8f9fa; /* Um cinza muito claro */
+  overflow: hidden; /* Garante o arredondamento */
+}
+
+.styled-input .form-control {
+  border-radius: 0 12px 12px 0 !important;
+}
+
+.styled-input .input-group-text {
+  border-radius: 12px 0 0 12px !important;
+  color: #777;
+}
+
+/* Efeito de foco nos inputs */
+.styled-input:focus-within {
+  border-color: rgb(48, 48, 132); /* Azul do cabeçalho */
+  box-shadow: 0 0 0 0.25rem rgba(48, 48, 132, 0.1);
+}
+
+/* Gradiente do Instagram (conforme imagem) */
+.bg-insta {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+.insta-group input {
+  padding-left: 15px !important; /* Ajuste para não colar no ícone */
+}
+
+/* Estilo do Botão de Salvar (btn-frangos) */
+.btn-frangos {
+  background-color: #1a1a7a; /* Um azul mais escuro, similar à imagem */
+  color: #fff;
+  font-family: 'NAMAKU', sans-serif;
+  letter-spacing: 1px;
+  border: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-frangos:hover:not(:disabled) {
+  background-color: #121262; /* Escurece um pouco no hover */
+  transform: translateY(-3px); /* Efeito de subida */
+}
+
+.btn-icon {
+  height: 20px; /* Ajuste conforme imagem */
+  width: auto;
+}
+
+/* LOADING OVERLAY (Mantenha o mesmo do anterior) */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  border-radius: 15px;
+}
+
+/* Força o texto DIGITADO a não ficar em negrito */
+.form-control {
+  font-family: 'NAMAKU', sans-serif; /* Garante a fonte nos inputs */
+  font-weight: normal !important; /* Força o peso normal */
+  font-size: 1rem; /* Tamanho padrão */
+  color: #333; /* Uma cor de texto digitado mais suave que preto puro */
+}
+
+/* Força os ícones e textos fixos (como o @ do insta) a não ficarem em negrito */
+.input-group-text {
+  font-weight: normal !important;
+}
+
+/* 1. Ajuste a borda padrão para já ocupar espaço */
+.styled-input {
+  transition: all 0.2s ease;
+  border: 2px solid transparent !important; /* Já reserva os 2px, mas invisível */
+  border-radius: 12px;
+  background-color: #f8f9fa;
+}
+
+.input-error {
+  border-color: #dc3545 !important; /* Apenas muda a cor da borda que já existe */
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important; /* Brilho vermelho */
+  animation: shake 0.5s; /* Efeito de balançar (opcional) */
+}
+
+/* Borda vermelha piscante para destaque */
+/*.input-error {
+ /* border: 2px solid #dc3545 !important; /* Vermelho Bootstrap */
+ /* border-radius: 12px; /* Mantém o arredondamento que definimos antes */
+ /* animation: shake 0.5s;
+ /* box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+/*}
+
+/* Efeito de tremer (shake) */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+
