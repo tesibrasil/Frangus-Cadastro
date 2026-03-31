@@ -178,7 +178,7 @@
                   <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-person-badge text-muted"></i></span>
                   <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.tamanho"
-                    name="tamanho">
+                    name="tamanho" [class.select-preenchido]="prova.tamanho">
                     <option value="" disabled selected>Selecione o tamanho</option>
                     <option value="BL">Baby Look (tamanho unico)</option>
                     <option value="P">P</option>
@@ -205,7 +205,7 @@
                   <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-wallet2 text-muted"></i></span>
                   <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.pagamento"
-                    name="pagamento">
+                    name="pagamento" [class.select-preenchido]="prova.pagamento">
                     <option value="" disabled selected>Nao seja caloteiro</option>
                     <option value="pix">PIX</option>
                     <option value="cartao">Cartão</option>
