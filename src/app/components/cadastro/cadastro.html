@@ -125,9 +125,12 @@
       <div class="card-body p-4 bg-white">
         <form (reset)="reset()" (submit)="enviar()" [class.opacity-25]="carregando">
           <div class="row">
-            <div class="col-md-7 d-flex justify-content-start align-items-start ps-4 gap-5">
+
+            <div
+              class="col-md-7 d-flex flex-column flex-md-row justify-content-start align-items-center align-items-md-start ps-md-5 gap-4 gap-md-5">
               <input type="hidden" [(ngModel)]="prova.modalidade" name="modalidade">
-              <div class="position-relative">
+
+              <div class="position-relative mb-4 mb-md-0">
                 <div class="card-carrossel-estilo shadow">
                   <div class="header-carrossel text-center p-2">
                     <h5 class="text-white m-0 fw-bold">MODALIDADE</h5>

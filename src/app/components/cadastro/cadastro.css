@@ -526,3 +526,19 @@ select.form-select option {
   color: #212529 !important;
   background-color: #fff;
 }
+
+@media (max-width: 768px) {
+  /* No celular, vamos dar um pouco mais de margem para o card não tocar as bordas da tela */
+  .card-carrossel-estilo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 220px; /* Podemos até aumentar um pouquinho o card no celular se quiser */
+  }
+
+  /* Garante que o container de inputs (col-md-5) também tenha espaço no topo após os cards */
+  .col-md-5 {
+    margin-top: 30px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
