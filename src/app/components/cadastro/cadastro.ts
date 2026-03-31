@@ -14,9 +14,41 @@ import Swal from 'sweetalert2';
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css',
 })
+
+
 export class CadastroComponent {
 
+  public etapaAtual: number = 1; // Começa no card 1 (Dados do Atleta)
   novoAtleta = false; // Controle para mostrar/ocultar o formulário
+
+  // Lista de modalidades
+modalidades = [
+  { nome: 'ATLETA', imagem: 'assets/img/frangus-atleta.png' },
+  { nome: 'STAFF', imagem: 'assets/img/frangus-staff.png' }
+];
+
+transportes = [
+  { nome: 'busão', imagem: 'assets/img/frangus-bus.png' },
+  { nome: 'veículo próprio', imagem: 'assets/img/frangus-carro.png' }
+];
+
+indiceModalidade = 0;
+indiceTransporte = 0;
+
+prova = { cpf: '',
+  nome: '',
+  nascimento: '',
+  telefone: '',
+  rg: '',
+  email: '',
+  instagram: '',
+  tamanho: '',
+  nomeCamiseta: '',
+  pagamento: '',
+  sugestoes: '',
+  modalidade: this.modalidades[0].nome, // Começa como 'ATLETA'
+  transporte: this.transportes[0].nome  // Começa como 'BUSÃO'
+  };
 
   atleta = {
   id: 0,
@@ -301,6 +333,100 @@ erroAoSalvar() {
   this.carregando = false;
 }
 
+get modalidadeAtual() {
+  return this.modalidades[this.indiceModalidade];
+}
+
+get transporteAtual() {
+  return this.transportes[this.indiceTransporte];
+}
+
+mudarModalidade(direcao: number) {
+  this.indiceModalidade += direcao;
+  // Lógica para girar em loop
+  if (this.indiceModalidade < 0) this.indiceModalidade = this.modalidades.length - 1;
+  if (this.indiceModalidade >= this.modalidades.length) this.indiceModalidade = 0;
+
+  // CAPTURA: Salva o nome da modalidade escolhida no objeto prova
+  this.prova.modalidade = this.modalidadeAtual.nome;
+}
+
+mudarTransporte(direcao: number) {
+  this.indiceTransporte += direcao;
+  if (this.indiceTransporte < 0) this.indiceTransporte = this.transportes.length - 1;
+  if (this.indiceTransporte >= this.transportes.length) this.indiceTransporte = 0;
+
+  // CAPTURA: Salva o nome do transporte escolhido no objeto prova
+ this.prova.transporte = this.transporteAtual.nome;
+}
+
+proximoCard() {
+
+ /*
+  // Aqui você pode adicionar uma validação: só avança se o form 1 estiver ok
+ type AtletaKeys = 'id' | 'cpf' | 'nome' | 'nascimento' | 'telefone' | 'rg' | 'email' | 'instagram';
+  const obrigatorios: { campo: AtletaKeys, nome: string, regra?: () => boolean, msg?: string }[] = [
+    {
+      campo: 'cpf',
+      nome: 'CPF',
+      regra: () => this.atleta.cpf.replace(/\D/g, '').length === 11,
+      msg: 'O CPF deve conter exatamente 11 dígitos.'
+    },
+    {
+      campo: 'nome',
+      nome: 'Nome Completo'
+    },
+    {
+      campo: 'nascimento',
+      nome: 'Data de Nascimento'
+    },
+    {
+      campo: 'telefone',
+      nome: 'Telefone',
+      regra: () => this.atleta.telefone.replace(/\D/g, '').length === 11,
+      msg: 'O Telefone deve ter o DDD + 9 dígitos (total 11).'
+    },
+    {
+      campo: 'rg',
+      nome: 'RG'
+    },
+    {
+      campo: 'email',
+      nome: 'E-mail',
+      regra: () => this.atleta.email.includes('@'),
+      msg: 'O E-mail informado é inválido (falta o @).'
+    }
+  ];
+
+  // 3. Execução da validação
+  for (let item of obrigatorios) {
+    const valor = String(this.atleta[item.campo] || '').trim();
+
+    // Verifica se está vazio
+    if (!valor) {
+      this.campoComErro = item.campo;
+      this.exibirErroValidacao(item.nome, `O campo "${item.nome}" é obrigatório.`);
+      return;
+    }
+
+    // Verifica a regra específica (comprimento/formato)
+    if (item.regra && !item.regra()) {
+      this.campoComErro = item.campo;
+      this.exibirErroValidacao(item.nome, item.msg || 'Formato inválido.');
+      return;
+    }
+  }
+
+    this.formatarInstagram();
+    this.formatarEmail();
+*/
+  this.etapaAtual = 2;
+  window.scrollTo(0, 75); // Volta para o topo da página
+}
+
+voltarCard() {
+  this.etapaAtual = 1;
+}
 
 
 enviar() {
@@ -308,28 +434,7 @@ enviar() {
   this.campoComErro = '';
   //this.carregando = true;
 
-  /*
-  type AtletaKeys = 'id' | 'cpf' | 'nome' | 'nascimento' | 'telefone' | 'rg' | 'email' | 'instagram';
-
-  const obrigatorios: { campo: AtletaKeys, nome: string }[] = [
-    { campo: 'cpf', nome: 'CPF' },
-    { campo: 'nome', nome: 'Nome Completo' },
-    { campo: 'nascimento', nome: 'Data de Nascimento' },
-    { campo: 'telefone', nome: 'Telefone' },
-    { campo: 'rg', nome: 'RG' },
-    { campo: 'email', nome: 'E-mail' }
-  ];
-
-for (let item of obrigatorios) {
-    const valor = String(this.atleta[item.campo] || '').trim();
-    if (!valor) {
-      this.campoComErro = item.campo;
-      this.exibirErroValidacao(item.nome);
-      return;
-    }
-  }
-  */
-
+/*
   type AtletaKeys = 'id' | 'cpf' | 'nome' | 'nascimento' | 'telefone' | 'rg' | 'email' | 'instagram';
   const obrigatorios: { campo: AtletaKeys, nome: string, regra?: () => boolean, msg?: string }[] = [
     {
@@ -385,8 +490,8 @@ for (let item of obrigatorios) {
 
     this.formatarInstagram();
     this.formatarEmail();
-
-    const dadosParaSalvar = {
+*/
+    const dadosParaSalvarAtleta = {
 
     ...this.atleta,
     id: 0,
@@ -396,20 +501,36 @@ for (let item of obrigatorios) {
     rg: this.atleta.rg.replace(/[\.\-]/g, '') // Aproveita e limpa o RG também
   };
 
+  const dadosParaSalvarProva = {
+    ...this.prova,
+    ...this.atleta,
+    instagram: this.atleta.instagram,
+    cpf: this.atleta.cpf.replace(/\D/g, ''),
+    telefone: this.atleta.telefone.replace(/\D/g, ''),
+    rg: this.atleta.rg.replace(/[\.\-]/g, ''),
+     // Aproveita e limpa o RG também
+  };
+
+
  if (this.novoAtleta) {
     // É um cadastro novo: usamos POST (salvar)
-    this.atletaService.salvar(dadosParaSalvar).subscribe({
+    this.atletaService.salvar(dadosParaSalvarAtleta).subscribe({
       next: () => this.sucessoAoSalvar(true),
       error: () => this.erroAoSalvar()
     });
   } else {
     // Já existe: usamos PATCH (atualizar)
     // Passamos o CPF original para o SheetDB encontrar a linha certa
-    this.atletaService.atualizar(this.atleta.cpf.replace(/\D/g, ''), dadosParaSalvar).subscribe({
+    this.atletaService.atualizar(this.atleta.cpf.replace(/\D/g, ''), dadosParaSalvarAtleta).subscribe({
       next: () => this.sucessoAoSalvar(false),
       error: () => this.erroAoSalvar()
     });
   }
+
+    this.atletaService.salvarProva(dadosParaSalvarProva).subscribe({
+      next: () => this.sucessoAoSalvar(true),
+      error: () => this.erroAoSalvar()
+    });
 }
 
 

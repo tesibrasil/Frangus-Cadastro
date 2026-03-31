@@ -7,111 +7,230 @@
       <span class="fw-bold text-dark text-uppercase" style="letter-spacing: 1px;">Buscando Frangolinu...</span>
     </div> -->
 
+
     <div class="card-header frangos-header p-4 d-flex align-items-center rounded-top-4">
       <img src="/assets/img/logo-frangus.png" alt="Logo Frangos" class="header-logo me-3">
       <h3 class="mb-0 fw-bold header-title">FICHA DO FRANGOLINU</h3>
     </div>
+    <div *ngIf="etapaAtual === 1" class="animate-in">
+      <div class="card-body p-4 bg-white">
+        <form (reset)="reset()" (submit)="enviar()" [class.opacity-25]="carregando">
 
-    <div class="card-body p-4 bg-white">
-      <form (submit)="enviar()" (reset)="reset()" [class.opacity-25]="carregando">
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-4">
-            <label class="form-label fw-semibold text-label">CPF</label>
-            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'cpf'}">
-              <span class="input-group-text bg-white border-0"><i class="bi bi-credit-card"></i></span>
-              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.cpf" name="cpf"
-                tabindex="1" appMaskCpf (change)="verificarCpf()" placeholder="000.000.000-00" maxlength="14"
-                [disabled]="carregando" (blur)="verificarCpf()" (input)="campoComErro = ''" inputmode="numeric">
-              <!-- <div *ngIf="novoAtleta" class="mt-2 text-center animate__animated animate__fadeIn">
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold text-label">CPF</label>
+              <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'cpf'}">
+                <span class="input-group-text bg-white border-0"><i class="bi bi-credit-card"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.cpf" name="cpf"
+                  tabindex="1" appMaskCpf (change)="verificarCpf()" (blur)="verificarCpf()" placeholder="000.000.000-00"
+                  maxlength="14" [disabled]="carregando" (input)="campoComErro = ''" inputmode="numeric">
+                <!-- <div *ngIf="novoAtleta" class="mt-2 text-center animate__animated animate__fadeIn" >
                 <span class="badge rounded-pill bg-info text-dark">
                   <i class="bi bi-person-plus-fill me-1"></i> Novo Frangolinu detectado
                 </span>
               </div> -->
+              </div>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label fw-semibold text-label">Nome Completo</label>
+              <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'nome'}">
+                <span class="input-group-text bg-white border-0"><i class="bi bi-person"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.nome" name="nome"
+                  tabindex="2" placeholder="Nome Completo" [disabled]="carregando" (input)="campoComErro = ''">
+              </div>
             </div>
           </div>
-          <div class="col-md-8">
-            <label class="form-label fw-semibold text-label">Nome Completo</label>
-            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'nome'}">
-              <span class="input-group-text bg-white border-0"><i class="bi bi-person"></i></span>
-              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.nome" name="nome"
-                tabindex="2" placeholder="Nome Completo" [disabled]="carregando" (input)="campoComErro = ''">
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-label">Data de Nascimento</label>
+              <div class="input-group input-group-lg styled-input"
+                [ngClass]="{'input-error': campoComErro === 'nascimento'}">
+                <span class="input-group-text bg-white border-0"><i class="bi bi-calendar3"></i></span>
+                <input type="date" class="form-control bg-light border-0 ps-0" name="nascimento"
+                  [(ngModel)]="atleta.nascimento" name="nasc" tabindex="3" [disabled]="carregando"
+                  (input)="campoComErro = ''" [class.data-preenchida]="atleta.nascimento">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-label">Telefone / WhatsApp</label>
+              <div class="input-group input-group-lg styled-input"
+                [ngClass]="{'input-error': campoComErro === 'telefone'}">
+                <span class="input-group-text bg-white border-0"><i class="bi bi-whatsapp"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.telefone" name="tel"
+                  tabindex="4" appMaskTel placeholder="(00) 00000-0000" [disabled]="carregando"
+                  (input)="campoComErro = ''">
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label class="form-label fw-semibold text-label">Data de Nascimento</label>
-            <div class="input-group input-group-lg styled-input"
-              [ngClass]="{'input-error': campoComErro === 'nascimento'}">
-              <span class="input-group-text bg-white border-0"><i class="bi bi-calendar3"></i></span>
-              <input type="date" class="form-control bg-light border-0 ps-0" name="nascimento"
-                [(ngModel)]="atleta.nascimento" name="nasc" tabindex="3" [disabled]="carregando"
-                (input)="campoComErro = ''">
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold text-label">RG</label>
+              <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'rg'}">
+                <span class="input-group-text bg-white border-0"><i class="bi bi-card-checklist"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.rg" name="rg"
+                  tabindex="5" appMaskRg placeholder="00.000.000-0" maxlength="12" [disabled]="carregando"
+                  (input)="campoComErro = ''">
+              </div>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label fw-semibold text-label">E-mail</label>
+              <div class="input-group input-group-lg styled-input"
+                [ngClass]="{'input-error': campoComErro === 'email'}">
+                <span class="input-group-text bg-white border-0"><i class="bi bi-envelope"></i></span>
+                <input type="email" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.email" name="email"
+                  tabindex="6" placeholder="exemplo@email.com" (blur)="formatarEmail()" [disabled]="carregando"
+                  (input)="campoComErro = ''">
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <label class="form-label fw-semibold text-label">Telefone / WhatsApp</label>
-            <div class="input-group input-group-lg styled-input"
-              [ngClass]="{'input-error': campoComErro === 'telefone'}">
-              <span class="input-group-text bg-white border-0"><i class="bi bi-whatsapp"></i></span>
-              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.telefone" name="tel"
-                tabindex="4" appMaskTel placeholder="(00) 00000-0000" [disabled]="carregando"
-                (input)="campoComErro = ''">
+
+          <div class="row g-3 mb-4">
+            <div class="col-12">
+              <label class="form-label fw-semibold text-label">Instagram</label>
+              <div class="input-group input-group-lg styled-input insta-group">
+                <span class="input-group-text bg-insta border-0 text-white"><i class="bi bi-instagram"></i></span>
+                <input type="text" class="form-control bg-light border-0" [(ngModel)]="atleta.instagram" name="insta"
+                  tabindex="7" placeholder="@seu_perfil" [disabled]="carregando" (blur)="formatarInstagram()">
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-4">
-            <label class="form-label fw-semibold text-label">RG</label>
-            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'rg'}">
-              <span class="input-group-text bg-white border-0"><i class="bi bi-card-checklist"></i></span>
-              <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.rg" name="rg"
-                tabindex="5" appMaskRg placeholder="00.000.000-0" maxlength="12" [disabled]="carregando"
-                (input)="campoComErro = ''">
-            </div>
-          </div>
-          <div class="col-md-8">
-            <label class="form-label fw-semibold text-label">E-mail</label>
-            <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'email'}">
-              <span class="input-group-text bg-white border-0"><i class="bi bi-envelope"></i></span>
-              <input type="email" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.email" name="email"
-                tabindex="6" placeholder="exemplo@email.com" (blur)="formatarEmail()" [disabled]="carregando"
-                (input)="campoComErro = ''">
-            </div>
-          </div>
-        </div>
-
-        <div class="row g-3 mb-4">
-          <div class="col-12">
-            <label class="form-label fw-semibold text-label">Instagram</label>
-            <div class="input-group input-group-lg styled-input insta-group">
-              <span class="input-group-text bg-insta border-0 text-white"><i class="bi bi-instagram"></i></span>
-              <input type="text" class="form-control bg-light border-0" [(ngModel)]="atleta.instagram" name="insta"
-                tabindex="7" placeholder="@seu_perfil" [disabled]="carregando" (blur)="formatarInstagram()">
-            </div>
-          </div>
-        </div>
 
 
 
-        <div class="d-flex justify-content-between align-items-center mt-5">
-          <button type="reset" class="btn btn-link text-decoration-none text-muted fw-light p-0"
-            [disabled]="carregando">Limpar campos</button>
+          <div class="d-flex justify-content-between align-items-center mt-5">
+            <button type="reset" class="btn btn-link text-decoration-none text-muted fw-light p-0"
+              [disabled]="carregando">Limpar campos</button>
 
-          <button type="submit" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" [disabled]="carregando">
-            Enviar
-            <!-- <span *ngIf="!carregando" class="d-flex align-items-center">
+            <!-- <button type="submit" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" [disabled]="carregando">
+              Enviar
+              <span *ngIf="!carregando" class="d-flex align-items-center">
               {{ novoAtleta ? 'ENVIAR CADASTRO' : 'ATUALIZAR' }}
               <img src="/assets/img/icon-frangus.png" alt="Ícone Frango" class="btn-icon ms-2">
             </span>
-            <span *ngIf="carregando" class="spinner-border spinner-border-sm"></span> -->
-          </button>
-        </div>
+            <span *ngIf="carregando" class="spinner-border spinner-border-sm"></span>
+            </button> -->
+            <button type="button" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" (click)="proximoCard()">
+              Próximo <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </div>
 
-      </form>
+        </form>
+      </div>
+    </div>
+
+
+    <div *ngIf="etapaAtual === 2" class="animate-in">
+      <div class="card-body p-4 bg-white">
+        <form (reset)="reset()" (submit)="enviar()" [class.opacity-25]="carregando">
+          <div class="row">
+            <div class="col-md-7 d-flex justify-content-start align-items-start ps-4 gap-5">
+              <input type="hidden" [(ngModel)]="prova.modalidade" name="modalidade">
+              <div class="position-relative">
+                <div class="card-carrossel-estilo shadow">
+                  <div class="header-carrossel text-center p-2">
+                    <h5 class="text-white m-0 fw-bold">MODALIDADE</h5>
+                  </div>
+                  <div class="corpo-carrossel p-3">
+                    <div class="moldura-imagem-carrossel">
+                      <img [src]="modalidadeAtual.imagem" alt="Modalidade" class="img-carrossel-fixa">
+                    </div>
+                  </div>
+                  <div class="footer-carrossel p-3 text-center">
+                    <div class="descricao-pill-preta fw-bolder">{{ modalidadeAtual.nome }}</div>
+                  </div>
+                </div>
+                <button type="button" (click)="mudarModalidade(-1)" class="seta-btn left shadow"><i
+                    class="bi bi-chevron-left"></i></button>
+                <button type="button" (click)="mudarModalidade(1)" class="seta-btn right shadow"><i
+                    class="bi bi-chevron-right"></i></button>
+              </div>
+
+              <div class="position-relative">
+                <div class="card-carrossel-estilo shadow">
+                  <div class="header-carrossel text-center p-2">
+                    <h5 class="text-white m-0 fw-bold">TRANSPORTE</h5>
+                  </div>
+                  <div class="corpo-carrossel p-3">
+                    <div class="moldura-imagem-carrossel">
+                      <img [src]="transporteAtual.imagem" alt="Transporte" class="img-carrossel-fixa">
+                    </div>
+                  </div>
+                  <div class="footer-carrossel p-3 text-center">
+                    <div class="descricao-pill-preta fw-bolder">{{ transporteAtual.nome }}</div>
+                  </div>
+                </div>
+                <button type="button" (click)="mudarTransporte(-1)" class="seta-btn left shadow"><i
+                    class="bi bi-chevron-left"></i></button>
+                <button type="button" (click)="mudarTransporte(1)" class="seta-btn right shadow"><i
+                    class="bi bi-chevron-right"></i></button>
+              </div>
+            </div>
+
+            <div class="col-md-5 pe-4">
+              <div class="mb-3">
+                <label class="form-label fw-semibold text-label">Tamanho da camiseta</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                      class="bi bi-person-badge text-muted"></i></span>
+                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.tamanho"
+                    name="tamanho">
+                    <option value="" disabled selected>Selecione o tamanho</option>
+                    <option value="BL">Baby Look (tamanho unico)</option>
+                    <option value="P">P</option>
+                    <option value="M">M</option>
+                    <option value="G">G</option>
+                    <option value="GG">GG</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold text-label">Nome na camiseta</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                      class="bi bi-fonts text-muted"></i></span>
+                  <input type="text" class="form-control form-control-lg border-start-0 rounded-end-3"
+                    [(ngModel)]="prova.nomeCamiseta" name="nomeCamiseta" placeholder="Permitido apenas um nome">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold text-label">Forma de pagamento</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                      class="bi bi-wallet2 text-muted"></i></span>
+                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.pagamento"
+                    name="pagamento">
+                    <option value="" disabled selected>Nao seja caloteiro</option>
+                    <option value="pix">PIX</option>
+                    <option value="cartao">Cartão</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label fw-semibold text-label">Sugestões</label>
+                <textarea class="form-control rounded-3" rows="3" [(ngModel)]="prova.sugestoes" name="sugestoes"
+                  placeholder="Alguma observação? Sugestão? Ameaça aos líderes?"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-4 pt-3 ">
+            <button type="button"
+              class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
+              (click)="etapaAtual = 1">
+              VOLTAR
+            </button>
+            <button type="submit"
+              class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow">
+              ENVIAR
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

@@ -22,6 +22,19 @@
   border-bottom-right-radius: 25px !important;
 }
 
+/* Placeholder padrão (HTML) */
+input::placeholder,
+textarea::placeholder {
+  color: #d1d1d1 !important; /* Cinza bem clarinho */
+  opacity: 1; /* Garante que o Firefox não mude a opacidade */
+}
+
+/* Caso a sua diretiva de máscara use classes específicas ou
+   insira o valor diretamente enquanto está vazio */
+input.form-control-lg:placeholder-shown {
+  color: #d1d1d1 !important;
+}
+
 .form-control-lg {
   border: 1px solid #e0e0e0;
   font-size: 1rem;
@@ -231,3 +244,285 @@ form {
 }
 
 
+/* Animação de entrada */
+.animate-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo padrão: Cinza clarinho (como um placeholder) */
+input[type="date"]::-webkit-datetime-edit {
+  color: #d1d1d1 !important;
+}
+
+/* Quando houver valor (através da classe do Angular), fica preto */
+input[type="date"].data-preenchida::-webkit-datetime-edit {
+  color: #212529 !important;
+}
+
+/* Garante que ao clicar para editar, o texto que o usuário digita fique preto */
+input[type="date"]:focus::-webkit-datetime-edit {
+  color: #212529 !important;
+}
+
+/* Estilo do Carrossel de Imagem */
+.card-imagem {
+  border: 3px solid #ccc;
+  border-radius: 25px;
+  position: relative;
+  width: 200px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.btn-seta {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  color: #ccc;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-seta.left { left: -15px; }
+.btn-seta.right { right: -15px; }
+
+.label-descricao {
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 5px 15px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.img-opcao {
+  max-height: 150px;
+}
+
+
+/* CONTAINER PRINCIPAL */
+.card-carrossel-estilo {
+  width: 200px;
+  border-radius: 20px;
+  background-color: white;
+  margin-top: 25px;
+  position: relative;
+  box-shadow: 0 0 0 4px #2b2d84; /* Borda azul grossa */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER AZUL */
+.header-carrossel {
+  background-color: #2b2d84;
+  color: white;
+  padding: 12px 10px;
+  text-align: center;
+    margin: 0;
+  width: 100%;
+  border: none;
+
+  /* O segredo: o header agora desenha o arredondamento do topo */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+
+  /* Removemos as margens negativas complicadas */
+
+}
+
+
+/* CORPO DO CARROSSEL */
+.corpo-carrossel {
+  padding: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+
+  border-left: 4px solid #2b2d84;
+  border-right: 4px solid #2b2d84;
+
+
+}
+
+.footer-carrossel {
+  padding: 15px;
+  text-align: center;
+  min-height: 70px; /* Garante que o espaço do rodapé seja constante */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-left: 4px solid #2b2d84;
+  border-right: 4px solid #2b2d84;
+  border-bottom: 4px solid #2b2d84;
+
+}
+
+/* MOLDURA CINZA INTERNA DA IMAGEM */
+.moldura-imagem-carrossel {
+  border: 3px solid #2b2d84; /* Borda cinza interna */
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95%; /* Ocupa a largura disponível entre as setas */
+  height: 160px; /* Altura fixa para a moldura */
+}
+
+/* CONFIGURAÇÃO PARA TAMANHO DA IMAGEM */
+.img-carrossel-fixa {
+  max-width: 150px; /* Largura máxima da imagem */
+  max-height: 130px; /* Altura máxima da imagem */
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Garante que a imagem não distorça */
+}
+
+/* ESTILO DAS SETAS (IGUAL AO DESENHO) */
+.seta-btn {
+background: white; /* Fundo branco para destacar */
+  border: 2px solid #ced4da; /* Borda cinza fina */
+  color: #ced4da;
+  border-radius: 50%; /* Faz o círculo perfeito */
+  width: 40px; /* Tamanho do botão */
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+ cursor: pointer;
+  z-index: 5; /* Garante que fique acima da moldura */
+/* --- NOVA LÓGICA DE CENTRALIZAÇÃO --- */
+  display: flex !important; /* Força o Flexbox */
+  align-items: center !important; /* Centraliza verticalmente */
+  justify-content: center !important; /* Centraliza horizontalmente */
+  padding: 0 !important; /* Remove qualquer padding padrão que desalinhava o ícone */
+  line-height: 1 !important; /* Garante que o tamanho da linha não empurre o ícone */
+
+ /* display: flex;
+  align-items: center;
+  justify-content: center;
+ */
+  transition: all 0.2s ease;
+}
+
+
+
+/* Efeito de clique/hover nos botões */
+.seta-btn:hover {
+  border-color: #2b2d84;
+  color: #2b2d84;
+  background-color: #f8f9fa;
+}
+
+.seta-btn.left { left: -20px; }
+.seta-btn.right { right: -20px; }
+
+/* FOOTER COM A DESCRIÇÃO PRETA */
+.descricao-pill-preta {
+  border: 3px solid #2b2d84; /* Borda preta grossa */
+  border-radius: 12px;
+  padding: 5px 20px;
+  font-weight: 900;
+  text-transform: lowercase; /* Texto minúsculo conforme desenho */
+  background: #2b2d84;;
+  display: inline-block; /* Ajusta a pílula ao texto */
+  color: white; /* Texto branco para contraste */
+
+  /* AJUSTES PARA TAMANHO FIXO */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;  /* Largura fixa para acomodar textos maiores como "VEÍCULO PRÓPRIO" */
+  height: 40px;  /* Altura fixa para evitar que o card mude de tamanho verticalmente */
+  white-space: nowrap; /* Impede que o texto quebre em duas linhas */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adiciona "..." se o texto for absurdamente grande */
+}
+
+
+/* Cor dos labels dos campos */
+.text-label-azul {
+  color: #2b2d84;
+  font-size: 0.9rem;
+}
+
+/* Container dos inputs com borda cinza e arredondada */
+.styled-input-prova {
+  border: 2px solid #ced4da;
+  border-radius: 15px;
+  background-color: #f8f9fa;
+  overflow: hidden;
+}
+
+/* Ajuste específico para o select e input não "quebrarem" a borda */
+.styled-input-prova .form-control,
+.styled-input-prova .form-select {
+  box-shadow: none !important;
+}
+
+/* Textarea de sugestões */
+.styled-textarea-prova {
+  border: 2px solid #ced4da;
+  border-radius: 15px;
+  background-color: #fff;
+  resize: none;
+}
+
+.styled-textarea-prova:focus {
+  border-color: #2b2d84;
+  box-shadow: none;
+}
+
+/* Garante que o select do tamanho siga o padrão dos inputs de texto */
+.form-select.form-control-lg {
+  height: calc(1.5 em + 1rem + 2px); /* Mesma altura dos inputs de texto */
+  color: #495057;
+  cursor: pointer;
+}
+
+.input-group-text {
+  border: 1px solid #e0e0e0; /* Mesma cor de borda definida no seu CSS */
+}
+
+.btn-enviar {
+  background-color: #2b2d84 !important; /* Azul Frangus */
+  border-color: #2b2d84 !important;
+  letter-spacing: 1px;
+  transition: transform 0.2s ease;
+}
+
+.btn-enviar:hover {
+  transform: scale(1.05);
+  background-color: #1e1f5c !important;
+}
+
+/* Cor padrão do Select (Cinza Placeholder) */
+select.form-select {
+  color: #d1d1d1 !important;
+}
+
+/* Cor quando uma opção for selecionada (Classe aplicada pelo Angular) */
+select.form-select.select-preenchido {
+  color: #212529 !important;
+}
+
+/* Garante que as opções dentro do menu suspenso sejam sempre pretas para leitura */
+select.form-select option {
+  color: #212529 !important;
+  background-color: #fff;
+}
