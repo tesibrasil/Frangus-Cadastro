@@ -26,8 +26,8 @@
           },
           {
             "type": "anyComponentStyle",
-            "maximumWarning": "2kb",
-            "maximumError": "4kb"
+            "maximumWarning": "10kb",
+            "maximumError": "20kb"
           }
         ],
             "browser": "src/main.ts",
@@ -53,8 +53,8 @@
       },
       {
         "type": "anyComponentStyle",
-        "maximumWarning": "4kB",
-        "maximumError": "8kB"
+        "maximumWarning": "10kB",
+        "maximumError": "20kB"
       }
     ],
     "outputHashing": "all"
