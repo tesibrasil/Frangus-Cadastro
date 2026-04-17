@@ -43,7 +43,7 @@ prova = { cpf: '',
   email: '',
   instagram: '',
   tamanho: '',
-  nomeCamiseta: '',
+  nomecamiseta: '',
   pagamento: '',
   sugestoes: '',
   modalidade: this.modalidades[0].nome, // Começa como 'ATLETA'
