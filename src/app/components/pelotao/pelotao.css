@@ -36,6 +36,11 @@
   margin: 0;
 }
 
+.atleta-form{
+  color: #b1a9a9;
+  font-family: 'Namaku', sans-serif;
+}
+
 /* --- REGRAS DO LOADER (Caso precise) --- */
 .loading-overlay {
   position: absolute;
@@ -127,3 +132,11 @@
   to { opacity: 1; transform: scale(1); }
 }
 
+@media (max-width: 576px) {
+  .header-title {
+    font-size: 1.15rem !important; /* Diminui a letra apenas no celular para caber tudo na linha */
+  }
+  .header-logo {
+    height: 38px; /* Diminui levemente o logo no celular */
+  }
+}
