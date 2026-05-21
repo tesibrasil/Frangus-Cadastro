@@ -1,0 +1,129 @@
+/* --- ESTILOS DO HEADER IGUAL AO CADASTRO --- */
+.main-card {
+  border: none !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+  background-color: #ffffff;
+}
+
+.frangos-header {
+    background-color: rgb(48, 48, 132);
+  height: 80px; /* Definimos uma altura fixa para o azul */
+  position: relative; /* Necessário para o logo se basear aqui */
+  display: flex;
+  align-items: center;
+  padding-left: 110px !important; /* Abre espaço para o logo que vai ficar por cima */
+  /* Garante que o cabeçalho acompanhe o arredondamento superior */
+  border-top-left-radius: 25px !important;
+  border-top-right-radius: 25px !important;
+  border-bottom: 0;
+}
+
+.header-logo {
+  height: 100px; /* Agora você pode aumentar para 100, 120 ou quanto quiser */
+  width: auto;
+  position: absolute; /* Ele "flutua" sobre o layout */
+  left: 20px;
+  /*top: -20px;  Joga o logo um pouco para cima, saindo do azul se desejar */
+  z-index: 5;
+  filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.3));
+}
+
+.header-title {
+
+  color: #fff;
+  font-family: 'Namaku', sans-serif;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* --- REGRAS DO LOADER (Caso precise) --- */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+/* --- REGRAS DOS CHECKBOXES QUE JÁ ESTAVAM BOAS --- */
+.text-label {
+  color: #2b2d84;
+}
+.min-height-custom {
+  min-height: 60px;
+  align-content: center;
+}
+.checkbox-card {
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e0e0 !important;
+  /* border-color: #e0e0e0 !important; */
+  height: 54px; /* Altura fixa ideal */
+  display: flex;
+  align-items: center; /* Garante alinhamento vertical dos filhos */
+  justify-content: flex-start;
+  gap: 12px !important; /* Distância perfeita entre o quadrado e o nome */
+  /* padding: 0 16px !important; Padding normal */
+}
+
+/* Alinhamento fino da fonte do atleta */
+.label-atleta {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1; /* Evita que o texto "suba" ou "desça" em relação ao quadrado */
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100% - 28px); /* Previne quebras de layout em nomes longos */
+}
+
+/* Alinhamento fino do quadrado do checkbox */
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0 !important; /* Remove margens fantasmas do bootstrap */
+  flex-shrink: 0; /* Impede que o quadrado amasse se o nome for grande */
+}
+
+.checkbox-card:hover {
+  border-color: #2b2d84 !important;
+  background-color: #f1f3f9;
+}
+.card-marcado {
+  background-color: #e8eaff !important;
+  border: 1px solid transparent !important; /* Esconde a borda original */
+  outline: 2px solid #2b2d84 !important; /* Cria a linha sem alterar o tamanho do card */
+  outline-offset: -2px; /* Força o outline a ir para dentro do card */
+  box-shadow: 0 4px 10px rgba(43, 45, 132, 0.12);
+}
+/* .card-marcado {
+  background-color: #e8eaff !important;
+  border: 2px solid #2b2d84 !important;
+} */
+.custom-checkbox:checked {
+  background-color: #2b2d84;
+  border-color: #2b2d84;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.btn-enviar {
+  background-color: #2b2d84 !important;
+  border-color: #2b2d84 !important;
+  letter-spacing: 1px;
+}
+.btn-enviar:hover {
+  background-color: #1e1f5c !important;
+}
+.animate-in {
+  animation: fadeIn 0.25s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+

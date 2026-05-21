@@ -1,0 +1,91 @@
+<div class="container mt-5 mb-5">
+  <div class="card shadow-lg border-0 rounded-4 main-card position-relative">
+
+    <div *ngIf="carregando" class="loading-overlay d-flex flex-column justify-content-center align-items-center rounded-4">
+      <div class="spinner-border text-primary mb-2" style="width: 3rem; height: 3rem;" role="status"></div>
+      <span class="fw-bold text-dark text-uppercase">Salvando Pelotao...</span>
+    </div>
+
+    <div class="card-header frangos-header p-4 d-flex align-items-center rounded-top-4">
+      <img src="/assets/img/logo-frangus.png" alt="Logo Frangos" class="header-logo me-3">
+      <h3 class="mb-0 fw-bold header-title text-uppercase">EQUIPE FRANGUS: Pelotoes</h3>
+    </div>
+
+    <div [ngClass]="{'opacity-25': carregando}" class="card-body p-4 bg-white rounded-bottom-4">
+
+      <div class="row g-3 mb-4 align-items-end">
+  <div class="col-12 col-md-6">
+    <label class="form-label fw-semibold text-label">Nome do Frangu</label>
+    <div class="input-group input-group-lg"> <span class="input-group-text bg-light border-end-0 rounded-start-3">
+        <i class="bi bi-flag text-muted"></i>
+      </span>
+      <input type="text" class="form-control form-control-lg border-start-0 rounded-end-3"
+             [(ngModel)]="nomePelotao"placeholder="Seu nome, seu infeliz..">
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <label class="form-label fw-semibold text-label">Nivel de Habilidade</label>
+    <div class="input-group input-group-lg"> <span class="input-group-text bg-light border-end-0 rounded-start-3">
+        <i class="bi bi-graph-up-arrow text-muted"></i>
+      </span>
+      <select class="form-select form-control-lg border-start-0 rounded-end-3"
+              [(ngModel)]="nivelDificuldade" [class.select-preenchido]="nivelDificuldade">
+        <option value="" disabled selected>Selecione o nivel de vosso pelotones</option>
+        <option value="Fácil">Sobreviver é opcional</option>
+        <option value="Médio">Vou dar meu maximo, mas nem tanto</option>
+        <option value="Difícil">Vamos comer com farofa</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+      <hr class="text-muted opacity-25">
+
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3 my-3">
+        <div class="col" *ngFor="let atleta of atletas">
+          <div class="card h-100 border rounded-3 p-2 checkbox-card transition-all cursor-pointer"
+               [class.card-marcado]="atleta.selecionado"
+               (click)="toggleAtleta(atleta)">
+            <div class="d-flex align-items-center gap-2 m-0 w-100">
+              <input class="form-check-input custom-checkbox m-0 cursor-pointer" type="checkbox"
+                     [checked]="atleta.selecionado" (click)="$event.stopPropagation(); toggleAtleta(atleta)">
+              <label class="small fw-medium text-dark cursor-pointer text-truncate m-0 label-atleta">
+                {{ atleta.nome }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="text-muted opacity-25">
+
+      <div class="row mt-4">
+        <div class="col-12">
+          <h5 class="fw-bold text-label mb-3">
+            <i class="bi bi-people-fill me-2"></i>Integrantes Selecionados ({{ atletasSelecionados.length }})
+          </h5>
+          <div class="d-flex flex-wrap gap-2 painel-selecionados p-3 border rounded-3 bg-light min-height-custom">
+            <span *ngIf="atletasSelecionados.length === 0" class="text-muted small my-auto">
+              Nenhum atleta selecionado na grade acima.
+            </span>
+            <span *ngFor="let selecionado of atletasSelecionados"
+                  class="badge bg-dark text-white rounded-pill px-3 py-2 fs-6 animate-in">
+              {{ selecionado.nome }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+        <button type="button" class="btn btn-outline-secondary px-5 py-2 fw-bold text-uppercase rounded-pill" (click)="limpar()">
+          LIMPAR
+        </button>
+        <button type="button" class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow" (click)="enviar()">
+          SALVAR PELOTAO
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
