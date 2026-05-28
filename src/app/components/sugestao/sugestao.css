@@ -1,0 +1,135 @@
+.main-card {
+  border: none !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.frangos-header {
+    background-color: rgb(48, 48, 132);
+  height: 80px; /* Definimos uma altura fixa para o azul */
+  position: relative; /* Necessário para o logo se basear aqui */
+  display: flex;
+  align-items: center;
+  padding-left: 110px !important; /* Abre espaço para o logo que vai ficar por cima */
+  /* Garante que o cabeçalho acompanhe o arredondamento superior */
+  border-top-left-radius: 25px !important;
+  border-top-right-radius: 25px !important;
+  border-bottom: 0;
+}
+
+.header-logo {
+  height: 100px; /* Agora você pode aumentar para 100, 120 ou quanto quiser */
+  width: auto;
+  position: absolute; /* Ele "flutua" sobre o layout */
+  left: 20px;
+  /*top: -20px;  Joga o logo um pouco para cima, saindo do azul se desejar */
+  z-index: 5;
+  filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.3)); /* Dá profundidade */
+}
+
+/* --- AJUSTES EXCLUSIVOS PARA VERSÃO MOBILE --- */
+@media (max-width: 576px) {
+  .frangos-header {
+    height: auto !important; /* Remove a altura fixa para o texto respirar no celular */
+    padding-top: 70px !important; /* Cria espaço na parte superior para o logo flutuante */
+    padding-left: 15px !important; /* Remove o empurrão do desktop e padroniza as laterais */
+    padding-right: 15px !important;
+    justify-content: center !important; /* Centraliza o bloco de texto horizontalmente */
+    text-align: center !important; /* Centraliza as linhas de texto */
+  }
+
+  .header-logo {
+    height: 125px !important; /* Mantém o logo grande e imponente no celular */
+    position: absolute;
+    left: 50% !important; /* Move o início do logo para o meio exato da tela */
+    transform: translateX(-50%) !important; /* Puxa o logo de volta metade do seu tamanho, garantindo a centralização perfeita */
+    top: -35px !important; /* Joga o logo para cima, fazendo ele flutuar para fora da borda azul */
+  }
+
+  .header-title {
+    font-size: 1.2rem !important; /* Diminui levemente a fonte para não estourar no mobile */
+    margin-top: 10px !important;
+    width: 100%;
+  }
+}
+
+.header-title {
+  color: #ffffff !important;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.text-label {
+  color: #2b2d84;
+}
+
+/* Estilo do Textarea */
+textarea.form-control:focus {
+  border-color: #2b2d84;
+  box-shadow: 0 0 0 0.25rem rgba(43, 45, 132, 0.1);
+}
+
+.btn-enviar {
+  background-color: #2b2d84 !important;
+  border-color: #2b2d84 !important;
+  width: 25%;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  backdrop-filter: blur(3px);
+}
+
+/* Ajustes Mobile */
+@media (max-width: 576px) {
+  .header-title { font-size: 1.2rem !important; }
+  .header-logo { height: 40px; }
+}
+
+/* --- AJUSTE DA COR DO HINT / PLACEHOLDER (CINZA CLARO) --- */
+::placeholder {
+  color: #c0c0c0 !important; /* Um cinza claro muito elegante */
+  opacity: 1; /* Garante que o Firefox aplique a cor corretamente */
+}
+
+/* Garante a aplicação para os seletores específicos do Safari/Chrome/Edge */
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #c0c0c0 !important;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #c0c0c0 !important;
+}
+
+/* --- CONTROLE ESTRITO DO TAMANHO DOS BOTÕES --- */
+.btn {
+  /* Altera a altura interna e o espaçamento lateral */
+  padding: 8px 24px !important;
+  font-size: 0.9rem !important; /* Diminui levemente a fonte para o botão parecer menor */
+}
+
+/* Aplica o tamanho menor apenas quando estiver no Computador/Tablet */
+@media (min-width: 576px) {
+  .w-sm-auto {
+    width: auto !important; /* Libera o botão de ocupar a largura toda */
+  }
+
+  .btn-outline-secondary,
+  .btn-enviar {
+    width: 200px !important; /* FORÇA uma largura fixa e elegante para os dois botões no PC */
+  }
+}
+
+/* Mantém o comportamento confortável de tela cheia apenas no Celular */
+@media (max-width: 575px) {
+  .btn {
+    padding: 10px 16px !important; /* Um pouco mais alto no mobile para facilitar o toque */
+  }
+}

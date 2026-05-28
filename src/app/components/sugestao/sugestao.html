@@ -1,0 +1,52 @@
+<div class="container mt-5 mb-5">
+  <div class="card shadow-lg border-0 rounded-4 main-card position-relative">
+
+    <div *ngIf="carregando" class="loading-overlay d-flex flex-column justify-content-center align-items-center rounded-4">
+      <div class="spinner-border text-primary mb-2" role="status"></div>
+      <span class="fw-bold text-dark text-uppercase">Enviando sugestao...</span>
+    </div>
+
+    <div class="card-header frangos-header p-3 p-md-4 d-flex flex-column flex-sm-row align-items-center text-center text-sm-start rounded-top-4 gap-2 gap-sm-0">
+      <img src="/assets/img/logo-frangus.png" alt="Logo Frangos" class="header-logo mb-2 mb-sm-0 me-sm-3">
+      <h3 class="mb-0 fw-bold header-title text-uppercase">EQUIPE FRANGUS: Sugestoes</h3>
+    </div>
+
+    <div [ngClass]="{'opacity-25': carregando}" class="card-body p-4 bg-white rounded-bottom-4">
+
+      <p class="text-muted small mb-4">Utilize este espaco para enviar ideias, criticas, ameacas aos adm ou melhorias para a nossa equipe.</p>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-5">
+          <label class="form-label fw-semibold text-label">Nome (nao preencher caso nao queira ser identificado)</label>
+          <div class="input-group input-group-lg">
+            <span class="input-group-text bg-light border-end-0 rounded-start-3">
+              <i class="bi bi-person text-muted"></i>
+            </span>
+            <input type="text" class="form-control border-start-0 rounded-end-3"
+                   [(ngModel)]="nome" placeholder="Ex: Nome">
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label fw-semibold text-label">Sua Sugestao / Comentario</label>
+          <textarea class="form-control form-control-lg rounded-3" rows="6"
+                    [(ngModel)]="sugestao" placeholder="Manda bala....."></textarea>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-4 pt-3 border-top gap-3 gap-sm-0">
+
+  <button type="button" class="btn btn-outline-secondary w-100 w-sm-auto px-5 py-2 fw-bold text-uppercase rounded-pill" (click)="limpar()">
+    LIMPAR
+  </button>
+
+  <button type="button" class="btn btn-primary btn-enviar w-100 w-sm-auto px-5 py-2 fw-bold text-uppercase rounded-pill shadow" (click)="enviar()">
+    <span class="d-none d-sm-inline">Enviar Sugestao</span>
+    <span class="d-inline d-sm-none">Enviar</span>
+  </button>
+
+</div>
+
+    </div>
+  </div>
+</div>
