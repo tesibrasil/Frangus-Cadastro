@@ -12,7 +12,7 @@ constructor(private http: HttpClient) {}
 
 private apiAtletaUrl = { main :'https://sheetdb.io/api/v1/371w103tvq2i9', second: 'https://sheetdb.io/api/v1/dxwpt0kuljaou'};
 
-private apiIncricaoUrl = {main: 'https://sheetdb.io/api/v1/0va3zdpi7uwy1', second: 'https://sheetdb.io/api/v1/2w7pyejl8jjw1'}  ;
+private apiIncricaoUrl = {main: 'https://sheetdb.io/api/v1/rrd7u40jm6epp', second: 'https://sheetdb.io/api/v1/2w7pyejl8jjw1'}  ;
 
 buscarPorCpf(cpf: string) {
     // Tenta a primeira URL

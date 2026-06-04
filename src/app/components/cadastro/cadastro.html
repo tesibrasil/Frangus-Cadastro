@@ -1,12 +1,6 @@
 <div class="container mt-5 mb-5">
   <div class="card shadow-lg border-0 rounded-4 position-relative main-card">
 
-    <!-- <div *ngIf="carregando"
-      class="loading-overlay d-flex flex-column justify-content-center align-items-center rounded-4">
-      <div class="spinner-border text-primary mb-2" style="width: 3rem; height: 3rem;" role="status"></div>
-      <span class="fw-bold text-dark text-uppercase" style="letter-spacing: 1px;">Buscando Frangolinu...</span>
-    </div> -->
-
 
     <div class="card-header frangos-header p-4 d-flex align-items-center rounded-top-4">
       <img src="/assets/img/logo-frangus.png" alt="Logo Frangos" class="header-logo me-3">
@@ -24,11 +18,7 @@
                 <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.cpf" name="cpf"
                   tabindex="1" appMaskCpf (change)="verificarCpf()" (blur)="verificarCpf()" placeholder="000.000.000-00"
                   maxlength="14" [disabled]="carregando" (input)="campoComErro = ''" inputmode="numeric">
-                <!-- <div *ngIf="novoAtleta" class="mt-2 text-center animate__animated animate__fadeIn" >
-                <span class="badge rounded-pill bg-info text-dark">
-                  <i class="bi bi-person-plus-fill me-1"></i> Novo Frangolinu detectado
-                </span>
-              </div> -->
+
               </div>
             </div>
             <div class="col-md-8">
@@ -103,16 +93,8 @@
             <button type="reset" class="btn btn-link text-decoration-none text-muted fw-light p-0"
               [disabled]="carregando">Limpar campos</button>
 
-            <!-- <button type="submit" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" [disabled]="carregando">
-              Enviar
-              <span *ngIf="!carregando" class="d-flex align-items-center">
-              {{ novoAtleta ? 'ENVIAR CADASTRO' : 'ATUALIZAR' }}
-              <img src="/assets/img/icon-frangus.png" alt="Ícone Frango" class="btn-icon ms-2">
-            </span>
-            <span *ngIf="carregando" class="spinner-border spinner-border-sm"></span>
-            </button> -->
             <button type="button" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" (click)="proximoCard()">
-              Próximo <i class="bi bi-arrow-right ms-2"></i>
+              Proximo <i class="bi bi-arrow-right ms-2"></i>
             </button>
           </div>
 
@@ -173,12 +155,12 @@
 
             <div class="col-md-5 pe-4">
               <div class="mb-3">
-                <label class="form-label fw-semibold text-label">Tamanho da camiseta</label>
+                <label class="form-label fw-semibold text-label">Tamanho da camiseta (do kit Bravus)</label>
                 <div class="input-group">
                   <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-person-badge text-muted"></i></span>
-                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.tamanho"
-                    name="tamanho" [class.select-preenchido]="prova.tamanho">
+                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.tamanhoCamisetaKit"
+                    name="tamanho" [class.select-preenchido]="prova.tamanhoCamisetaKit">
                     <option value="" disabled selected>Selecione o tamanho</option>
                     <option value="BL">Baby Look (tamanho unico)</option>
                     <option value="P">P</option>
@@ -190,12 +172,32 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label fw-semibold text-label">Nome na camiseta</label>
+                <label class="form-label fw-semibold text-label">Onde voce mora?</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                      class="bi bi-wallet2 text-muted"></i></span>
+                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.regiao"
+                    name="regiao" [class.select-preenchido]="prova.regiao">
+                    <option value="" disabled selected>Conta pra gente..</option>
+                    <option value="centro">CENTRO</option>
+                    <option value="zona-leste">ZONA LESTE</option>
+                    <option value="zona-sul">ZONA SUL</option>
+                    <option value="zona-oeste">ZONA OESTE</option>
+                    <option value="zona-norte">ZONA NORTE</option>
+                    <option value="abcd-gde sp">ABCD/ GDE. SAO PAULO </option>
+                    <option value="litoral">LITORAL</option>
+                    <option value="outro">OUTRO (LONGE PRA CARAI..)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold text-label">Qual estacao de metro/trem mais proxima de voce?</label>
                 <div class="input-group">
                   <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-fonts text-muted"></i></span>
                   <input type="text" class="form-control form-control-lg border-start-0 rounded-end-3"
-                    [(ngModel)]="prova.nomecamiseta" name="nomeCamiseta" placeholder="Permitido apenas um nome">
+                    [(ngModel)]="prova.estacao" name="Estacao" placeholder="Se for colocar mais de uma, separa com /">
                 </div>
               </div>
 
@@ -208,18 +210,14 @@
                     name="pagamento" [class.select-preenchido]="prova.pagamento">
                     <option value="" disabled selected>Nao seja caloteiro</option>
                     <option value="pix">PIX</option>
-                    <option value="cartao">Cartão</option>
+                    <option value="cartao">Cartao</option>
                   </select>
                 </div>
               </div>
 
-              <div class="mb-2">
-                <label class="form-label fw-semibold text-label">Sugestões</label>
-                <textarea class="form-control rounded-3" rows="3" [(ngModel)]="prova.sugestoes" name="sugestoes"
-                  placeholder="Alguma observação? Sugestão? Ameaça aos líderes?"></textarea>
-              </div>
             </div>
           </div>
+
 
           <div class="d-flex justify-content-between align-items-center mt-4 pt-3 ">
             <button type="button"
@@ -227,13 +225,144 @@
               (click)="etapaAtual = 1">
               VOLTAR
             </button>
-            <button type="submit"
+            <!-- <button type="submit"
               class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow">
               ENVIAR
+            </button> -->
+                        <button type="button" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" (click)="proximoCard()">
+              Proximo <i class="bi bi-arrow-right ms-2"></i>
             </button>
           </div>
         </form>
       </div>
     </div>
+
+    <div *ngIf="etapaAtual === 3" class="animate-in">
+      <div class="card-body p-4 bg-white rounded-bottom-4">
+        <form (reset)="reset()" (submit)="enviar()" [class.opacity-25]="carregando">
+
+          <div class="row g-4">
+
+            <div class="col-12 col-md-6 pe-md-3">
+
+<div class="mb-4">
+  <button type="button"
+          class="btn px-4 py-2 fw-bold text-uppercase rounded-pill w-100 shadow"
+          [ngClass]="bloqueiaCamiseta ? 'btn-frangos text-white' : 'btn-outline-frangos'"
+          (click)="jaTenhoCamiseta()">
+    <i class="bi" [ngClass]="bloqueiaCamiseta ? 'bi-check-circle-fill me-2' : 'bi-circle me-2'"></i>
+    Ja tenho camiseta
+  </button>
+</div>
+
+              <div class="d-flex flex-column flex-sm-row gap-3">
+
+                <div class="flex-shrink-0 mx-auto mx-sm-0 mb-3 mb-sm-0" style="width: 250px;">
+                  <div class="card shadow-sm border rounded-3 p-2 bg-white h-100">
+                    <div class="header-carrossel text-center p-2 rounded-2 mb-2" style="background-color: rgb(48, 48, 132);">
+                      <h6 class="text-white m-0 fw-bold text-uppercase small">Uniforme Oficial</h6>
+                    </div>
+                    <div class="p-1 bg-light rounded d-flex align-items-center justify-content-center" style="height: calc(100% - 40px);">
+                      <img src="/assets/img/uniforme-frangus.jpeg" alt="Uniforme Oficial" class="img-fluid rounded" style="max-height: 250px; object-fit: contain;">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex-grow-1 d-flex flex-column gap-3">
+
+                  <div>
+                    <label class="form-label fw-semibold text-label mb-1">Nome na Camiseta</label>
+                    <div class="input-group input-group-lg styled-input">
+                      <span class="input-group-text bg-white border-0"><i class="bi bi-fonts text-muted"></i></span>
+                      <input type="text" class="form-control bg-white border-0 ps-0"
+                             [(ngModel)]="camiseta.nome" name="uniformeNome" placeholder="Nome personalizado"
+                             [disabled]="carregando || bloqueiaCamiseta">
+
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="form-label fw-semibold text-label mb-1">Exibir Instagram?</label>
+                    <div class="input-group input-group-lg styled-input">
+                      <span class="input-group-text bg-white border-0"><i class="bi bi-instagram text-muted"></i></span>
+                      <select class="form-select form-control-lg border-start-0 rounded-end-3"
+                              [(ngModel)]="camiseta.temInstagram" name="uniformeInsta"
+                              [class.select-preenchido]="camiseta.temInstagram" [disabled]="carregando || bloqueiaCamiseta">
+                        <option value="" disabled selected>Selecione uma opcao</option>
+                        <option value="sim">Sim, colocar @</option>
+                        <option value="nao">Não colocar @</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="form-label fw-semibold text-label mb-1">Tamanho da Camiseta</label>
+                    <div class="input-group input-group-lg styled-input">
+                      <span class="input-group-text bg-white border-0"><i class="bi bi-person-badge text-muted"></i></span>
+                      <select class="form-select form-control-lg border-start-0 rounded-end-3"
+                              [(ngModel)]="camiseta.tamanho" name="uniformeTamanho"
+                              [class.select-preenchido]="camiseta.tamanho" [disabled]="carregando || bloqueiaCamiseta">
+                        <option value="" disabled selected>Selecione o tamanho</option>
+                        <option value="BL-PP">Baby Look - PP</option>
+                        <option value="BL-P">Baby Look - P</option>
+                        <option value="BL-M">Baby Look - M</option>
+                        <option value="BL-G">Baby Look - G</option>
+                        <option value="P">P</option>
+                        <option value="M">M</option>
+                        <option value="G">G</option>
+                        <option value="GG">GG</option>
+                        <option value="XG">GG</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="form-label fw-semibold text-label mb-1">Número da Camiseta (2 Dígitos)</label>
+                    <div class="input-group input-group-lg styled-input">
+                      <span class="input-group-text bg-white border-0"><i class="bi bi-hash text-muted"></i></span>
+                      <input type="text" class="form-control bg-white border-0 ps-0"
+                             [(ngModel)]="camiseta.numero" name="uniformeNumero" placeholder="Ex: 10"
+                             maxlength="2" inputmode="numeric" pattern="[0-9]{2}"
+                             [disabled]="carregando || bloqueiaCamiseta">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-12 col-md-6 ps-md-4 d-flex flex-column">
+              <label class="form-label fw-semibold text-label mb-2">Deixe sua Sugestao ou Comentario</label>
+              <div class="flex-grow-1">
+                <textarea class="form-control form-control-lg rounded-3 h-100" rows="12"
+                          [(ngModel)]="prova.sugestao" name="sugestaoLivre"
+                          placeholder="Escreva aqui ideias, feedbacks ou críticas para a equipe..."
+                          [disabled]="carregando" style="min-height: 280px; resize: none;"></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-0">
+            <button type="button" class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
+                    (click)="etapaAtual = 2">
+              Voltar
+            </button>
+      <button type="submit"
+              class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
+                    [disabled]="carregando">
+              ENVIAR
+            </button>
+            <!-- <button type="button" class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
+                    [disabled]="carregando">
+              Finalizar
+            </button> -->
+          </div>
+
+        </form>
+      </div>
+    </div>
+
   </div>
 </div>

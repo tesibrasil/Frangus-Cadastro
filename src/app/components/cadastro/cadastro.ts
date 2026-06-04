@@ -1,3 +1,4 @@
+
 import { Component,ChangeDetectorRef } from '@angular/core';
 import { AtletaService } from '../../services/atleta';
 import { FormsModule } from '@angular/forms';
@@ -6,6 +7,8 @@ import { MaskCpfDirective } from '../../directives/mask-cpf';
 import { MaskTelDirective } from '../../directives/mask-tel';
 import { MaskRgDirective } from '../../directives/mask-rg';
 import Swal from 'sweetalert2';
+import { DadosCamiseta } from '../../Models/cadastro.models';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-cadastro',
@@ -16,6 +19,7 @@ import Swal from 'sweetalert2';
 })
 
 
+
 export class CadastroComponent {
 
   public etapaAtual: number = 1; // Começa no card 1 (Dados do Atleta)
@@ -24,31 +28,20 @@ export class CadastroComponent {
   // Lista de modalidades
 modalidades = [
   { nome: 'ATLETA', imagem: 'assets/img/frangus-atleta.png' },
+  { nome: 'ATLETA INDIVIDUAL', imagem: 'assets/img/frangus-atleta-individual.png' },
   { nome: 'STAFF', imagem: 'assets/img/frangus-staff.png' }
+
 ];
 
 transportes = [
-  { nome: 'busão', imagem: 'assets/img/frangus-bus.png' },
-  { nome: 'veículo próprio', imagem: 'assets/img/frangus-carro.png' }
+  { nome: 'busao', imagem: 'assets/img/frangus-bus.png' },
+  { nome: 'veiculo proprio', imagem: 'assets/img/frangus-carro.png' }
 ];
 
 indiceModalidade = 0;
 indiceTransporte = 0;
 
-prova = { cpf: '',
-  nome: '',
-  nascimento: '',
-  telefone: '',
-  rg: '',
-  email: '',
-  instagram: '',
-  tamanho: '',
-  nomecamiseta: '',
-  pagamento: '',
-  sugestoes: '',
-  modalidade: this.modalidades[0].nome, // Começa como 'ATLETA'
-  transporte: this.transportes[0].nome  // Começa como 'BUSÃO'
-  };
+
 
   atleta = {
   id: 0,
@@ -61,99 +54,66 @@ prova = { cpf: '',
   instagram: ''
 };
 
+public camiseta: DadosCamiseta = {
+  nome: '',
+  temInstagram: false,
+  tamanho: '',
+  numero: ''
+};
+
+
+bloqueiaCamiseta: boolean = false; // Controle para bloquear o campo de nome da camiseta
+
 carregando = false; // Controle de estado
 campoComErro: string = ''; // Para destacar o campo com erro
+
+prova = { cpf: '',
+  nome: '',
+  nascimento: '',
+  telefone: '',
+  rg: '',
+  email: '',
+  instagram: '',
+  modalidade: this.modalidades[0].nome, // Começa como 'ATLETA',
+  transporte: this.transportes[0].nome,  // Começa como 'BUSÃO'
+  tamanhoCamisetaKit: '',
+  regiao: '',
+  estacao: '',
+  pagamento: '',
+  uniforme: this.bloqueiaCamiseta ? 'Nao' : 'Sim', // Começa como 'Sim' (pois o campo de camiseta começa desbloqueado)
+  uniformeNome: this.bloqueiaCamiseta ? '' : this.camiseta.nome,
+  uniformeNumero: this.camiseta.numero,
+  uniformeTamanho: this.camiseta.tamanho,
+  uniformeInsta: this.camiseta.temInstagram ? 'Sim' : 'Nao',
+  sugestao: ''
+  };
 
   constructor(
     private atletaService: AtletaService,
     private cdr: ChangeDetectorRef
   ) {}
 
-  /*
-  verificarCpf() {
-    if (this.atleta.cpf.length >= 11) {
-      this.atletaService.buscarPorCpf(this.atleta.cpf).subscribe(res => {
-        if (res.length > 0) {
-          this.atleta = res[0]; // Preenche os campos se achar
-        }
-      });
-    }
-  }
+  jaTenhoCamiseta() {
+  this.bloqueiaCamiseta = !this.bloqueiaCamiseta;
 
-  verificarCpf2() {
-  const cpfLimpo = this.atleta.cpf.replace(/\D/g, '');
-
-  if (cpfLimpo.length === 11) {
-    this.atletaService.buscarPorCpf(cpfLimpo).subscribe({
-      next: (res) => {
-        if (res && res.length > 0) {
-          // Usamos o spread operator (...) para garantir que o Angular
-          // detecte a mudança de referência do objeto e atualize o HTML
-          this.atleta = { ...res[0] };
-          console.log('Dados carregados:', res[0]);
-        }
-      },
-      error: (err) => console.error('Erro ao buscar CPF:', err)
-    });
+  if (this.bloqueiaCamiseta) {
+    // Limpa os campos ao bloquear
+    this.camiseta = {
+      nome: 'Nao quero caraio',
+      temInstagram: false,
+      tamanho: '', // valor padrão neutro apenas para não quebrar validações futuras
+      numero: ''
+    };
+  } else {
+    // Reseta para o estado vazio caso o usuário desmarque a opção
+    this.camiseta = {
+      nome: '',
+      temInstagram: false,
+      tamanho: '',
+      numero: ''
+    };
   }
 }
-
-verificarCpf3() {
-    const cpfLimpo = this.atleta.cpf.replace(/\D/g, '');
-
-    if (cpfLimpo.length === 11) {
-      this.carregando = true; // Inicia o loading
-
-      this.atletaService.buscarPorCpf(cpfLimpo).subscribe({
-        next: (res) => {
-          if (res && res.length > 0) {
-            this.atleta = { ...res[0] };
-          }
-          this.carregando = false; // Para o loading ao encontrar
-        },
-        error: (err) => {
-          console.error(err);
-          this.carregando = false; // Para o loading mesmo em erro
-        }
-      });
-    }
-  }
-
-  verificarCpf4() {
-    const cpfLimpo = this.atleta.cpf.replace(/\D/g, '');
-
-    if (cpfLimpo.length === 11) {
-      this.carregando = true;
-
-      this.atletaService.buscarPorCpf(cpfLimpo).subscribe({
-        next: (res) => {
-          if (res && res.length > 0) {
-            // 3. Atualizamos o objeto com os dados da planilha
-            this.atleta = {
-            id: res[0].id,
-            nome: res[0].nome,
-            nascimento: res[0].nascimento,
-            cpf: res[0].cpf,
-            instagram: res[0].instagram,
-            telefone: res[0].telefone,
-            rg: res[0].rg,
-            email: res[0].email
-            };
-
-            // 4. FORÇA O ANGULAR A ATUALIZAR A TELA AGORA
-            this.cdr.detectChanges();
-          }
-          this.carregando = false;
-        },
-        error: (err) => {
-          console.error(err);
-          this.carregando = false;
-        }
-      });
-     // this.carregando = false;
-    }
-  }
-*/
 
   verificarCpf() {
   // Limpa a máscara para a lógica de busca
@@ -290,19 +250,43 @@ exibirErroValidacao(titulo: string, mensagem: string) {
   });
 }
 
-/*
-exibirErroValidacao(nomeCampo: string) {
-  Swal.fire({
-    title: 'Campo Obrigatório!',
-    text: `O campo "${nomeCampo}" precisa ser preenchido.`,
-    imageUrl: '/assets/img/logo-frangos.png', // Ou uma imagem do frango "bravo/triste"
-    imageHeight: 150,
-    confirmButtonColor: '#d33',
-    confirmButtonText: 'Vou preencher!',
-    heightAuto: false
-  });
+validarEtapa3(): boolean {
+  // Se o usuário MARCOU que já tem a camiseta, nenhum campo dela é obrigatório
+  if (this.bloqueiaCamiseta) {
+    return true;
+  }
+
+  // Se ele NÃO marcou, precisamos validar campo por campo da camiseta
+  if (!this.camiseta.nome || !this.camiseta.nome.trim()) {
+    Swal.fire('Atenção', 'Por favor, digite o nome que deseja na camiseta.', 'warning');
+    this.campoComErro = 'nomeCamiseta'; // Opcional: para você aplicar classe de erro se quiser
+    return false;
+  }
+
+  if (!this.camiseta.temInstagram) {
+    Swal.fire('Atenção', 'Por favor, selecione se deseja exibir o Instagram ou não.', 'warning');
+    this.campoComErro = 'temInstagram';
+    return false;
+  }
+
+  if (!this.camiseta.tamanho) {
+    Swal.fire('Atenção', 'Por favor, selecione o tamanho da sua camiseta.', 'warning');
+    this.campoComErro = 'tamanhoCamiseta';
+    return false;
+  }
+
+  // Valida o número: precisa existir e ter exatamente 2 dígitos (conforme pattern do HTML)
+  const numeroValido = /^[0-9]{2}$/.test(this.camiseta.numero);
+  if (!this.camiseta.numero || !numeroValido) {
+    Swal.fire('Atenção', 'Por favor, insira um número de camiseta válido com exatamente 2 dígitos (Ex: 07).', 'warning');
+    this.campoComErro = 'numeroCamiseta';
+    return false;
+  }
+
+  // Se passou por todos os "ifs", está tudo preenchido corretamente
+  this.campoComErro = '';
+  return true;
 }
-*/
 
 // Funções de apoio para limpar o código
 sucessoAoSalvar(isNovo: boolean) {
@@ -314,16 +298,17 @@ sucessoAoSalvar(isNovo: boolean) {
     imageHeight: 250,
     icon: 'success',
     confirmButtonColor: 'rgb(48, 48, 132)', // O azul do seu cabeçalho
-    confirmButtonText: 'Ótimo!',
+    confirmButtonText: 'Otimo!',
     heightAuto: false // Evita conflitos de layout no Angular
   });
+  this.etapaAtual = 1;
   this.reset();
 }
 
 erroAoSalvar() {
   Swal.fire({
     title: 'Erro',
-    text: 'Não foi possível salvar na planilha.',
+    text: 'Nao foi possível salvar na planilha.',
     imageUrl: '/assets/img/cabeca-frangus-triste.png',
     imageHeight: 250,
     confirmButtonColor: '#dc3545',
@@ -362,136 +347,20 @@ mudarTransporte(direcao: number) {
 
 proximoCard() {
 
- /*
-  // Aqui você pode adicionar uma validação: só avança se o form 1 estiver ok
- type AtletaKeys = 'id' | 'cpf' | 'nome' | 'nascimento' | 'telefone' | 'rg' | 'email' | 'instagram';
-  const obrigatorios: { campo: AtletaKeys, nome: string, regra?: () => boolean, msg?: string }[] = [
-    {
-      campo: 'cpf',
-      nome: 'CPF',
-      regra: () => this.atleta.cpf.replace(/\D/g, '').length === 11,
-      msg: 'O CPF deve conter exatamente 11 dígitos.'
-    },
-    {
-      campo: 'nome',
-      nome: 'Nome Completo'
-    },
-    {
-      campo: 'nascimento',
-      nome: 'Data de Nascimento'
-    },
-    {
-      campo: 'telefone',
-      nome: 'Telefone',
-      regra: () => this.atleta.telefone.replace(/\D/g, '').length === 11,
-      msg: 'O Telefone deve ter o DDD + 9 dígitos (total 11).'
-    },
-    {
-      campo: 'rg',
-      nome: 'RG'
-    },
-    {
-      campo: 'email',
-      nome: 'E-mail',
-      regra: () => this.atleta.email.includes('@'),
-      msg: 'O E-mail informado é inválido (falta o @).'
-    }
-  ];
-
-  // 3. Execução da validação
-  for (let item of obrigatorios) {
-    const valor = String(this.atleta[item.campo] || '').trim();
-
-    // Verifica se está vazio
-    if (!valor) {
-      this.campoComErro = item.campo;
-      this.exibirErroValidacao(item.nome, `O campo "${item.nome}" é obrigatório.`);
-      return;
-    }
-
-    // Verifica a regra específica (comprimento/formato)
-    if (item.regra && !item.regra()) {
-      this.campoComErro = item.campo;
-      this.exibirErroValidacao(item.nome, item.msg || 'Formato inválido.');
-      return;
-    }
-  }
-
-    this.formatarInstagram();
-    this.formatarEmail();
-*/
-  this.etapaAtual = 2;
+  this.etapaAtual = this.etapaAtual + 1;
   window.scrollTo(0, 75); // Volta para o topo da página
 }
 
 voltarCard() {
-  this.etapaAtual = 1;
+  this.etapaAtual = this.etapaAtual -1;
 }
 
 
 enviar() {
 
   this.campoComErro = '';
-  //this.carregando = true;
 
-/*
-  type AtletaKeys = 'id' | 'cpf' | 'nome' | 'nascimento' | 'telefone' | 'rg' | 'email' | 'instagram';
-  const obrigatorios: { campo: AtletaKeys, nome: string, regra?: () => boolean, msg?: string }[] = [
-    {
-      campo: 'cpf',
-      nome: 'CPF',
-      regra: () => this.atleta.cpf.replace(/\D/g, '').length === 11,
-      msg: 'O CPF deve conter exatamente 11 dígitos.'
-    },
-    {
-      campo: 'nome',
-      nome: 'Nome Completo'
-    },
-    {
-      campo: 'nascimento',
-      nome: 'Data de Nascimento'
-    },
-    {
-      campo: 'telefone',
-      nome: 'Telefone',
-      regra: () => this.atleta.telefone.replace(/\D/g, '').length === 11,
-      msg: 'O Telefone deve ter o DDD + 9 dígitos (total 11).'
-    },
-    {
-      campo: 'rg',
-      nome: 'RG'
-    },
-    {
-      campo: 'email',
-      nome: 'E-mail',
-      regra: () => this.atleta.email.includes('@'),
-      msg: 'O E-mail informado é inválido (falta o @).'
-    }
-  ];
-
-  // 3. Execução da validação
-  for (let item of obrigatorios) {
-    const valor = String(this.atleta[item.campo] || '').trim();
-
-    // Verifica se está vazio
-    if (!valor) {
-      this.campoComErro = item.campo;
-      this.exibirErroValidacao(item.nome, `O campo "${item.nome}" é obrigatório.`);
-      return;
-    }
-
-    // Verifica a regra específica (comprimento/formato)
-    if (item.regra && !item.regra()) {
-      this.campoComErro = item.campo;
-      this.exibirErroValidacao(item.nome, item.msg || 'Formato inválido.');
-      return;
-    }
-  }
-
-    this.formatarInstagram();
-    this.formatarEmail();
-*/
-    const dadosParaSalvarAtleta = {
+  const dadosParaSalvarAtleta = {
 
     ...this.atleta,
     id: 0,
@@ -508,29 +377,72 @@ enviar() {
     cpf: this.atleta.cpf.replace(/\D/g, ''),
     telefone: this.atleta.telefone.replace(/\D/g, ''),
     rg: this.atleta.rg.replace(/[\.\-]/g, ''),
+    uniforme: this.bloqueiaCamiseta ? 'Nao' : 'Sim',
+    uniformeNome: this.bloqueiaCamiseta ? '' : this.camiseta.nome,
+    uniformeNumero: this.camiseta.numero,
+    uniformeTamanho: this.camiseta.tamanho,
+    uniformeInsta: this.checkInstagramCamiseta()
      // Aproveita e limpa o RG também
   };
 
 
- if (this.novoAtleta) {
-    // É um cadastro novo: usamos POST (salvar)
-    this.atletaService.salvar(dadosParaSalvarAtleta).subscribe({
-      next: () => this.sucessoAoSalvar(true),
-      error: () => this.erroAoSalvar()
-    });
+//  if (this.novoAtleta) {
+//     // É um cadastro novo: usamos POST (salvar)
+//     this.atletaService.salvar(dadosParaSalvarAtleta).subscribe({
+//       next: () => this.sucessoAoSalvar(true),
+//       error: () => this.erroAoSalvar()
+//     });
+//   } else {
+//     // Já existe: usamos PATCH (atualizar)
+//     // Passamos o CPF original para o SheetDB encontrar a linha certa
+//     this.atletaService.atualizar(this.atleta.cpf.replace(/\D/g, ''), dadosParaSalvarAtleta).subscribe({
+//       next: () => this.sucessoAoSalvar(false),
+//       error: () => this.erroAoSalvar()
+//     });
+//   }
+
+//     this.atletaService.salvarProva(dadosParaSalvarProva).subscribe({
+//       next: () => this.sucessoAoSalvar(true),
+//       error: () => this.erroAoSalvar()
+//     });
+
+// 1. Criamos a variável que vai guardar a requisição do Atleta (POST ou PATCH)
+  let requisicaoAtleta$;
+
+  if (this.novoAtleta) {
+    // Apenas preparamos o Observable do POST, sem dar o .subscribe() ainda
+    requisicaoAtleta$ = this.atletaService.salvar(dadosParaSalvarAtleta);
   } else {
-    // Já existe: usamos PATCH (atualizar)
-    // Passamos o CPF original para o SheetDB encontrar a linha certa
-    this.atletaService.atualizar(this.atleta.cpf.replace(/\D/g, ''), dadosParaSalvarAtleta).subscribe({
-      next: () => this.sucessoAoSalvar(false),
-      error: () => this.erroAoSalvar()
-    });
+    // Apenas preparamos o Observable do PATCH
+    requisicaoAtleta$ = this.atletaService.atualizar(
+      this.atleta.cpf.replace(/\D/g, ''),
+      dadosParaSalvarAtleta
+    );
   }
 
-    this.atletaService.salvarProva(dadosParaSalvarProva).subscribe({
-      next: () => this.sucessoAoSalvar(true),
-      error: () => this.erroAoSalvar()
-    });
+  // 2. Preparamos a requisição da Prova
+  const requisicaoProva$ = this.atletaService.salvarProva(dadosParaSalvarProva);
+
+  // 3. O SEGREDO: Juntamos as duas requisições em um único bloco definitivo
+  forkJoin({
+    atleta: requisicaoAtleta$,
+    prova: requisicaoProva$
+  }).subscribe({
+    next: (resultados) => {
+      // Este bloco SÓ VAI EXECUTAR quando as duas APIs responderem com sucesso!
+      console.log('Ambos os envios foram concluídos!', resultados);
+
+      // Passamos 'this.novoAtleta' para que o método saiba se foi um cadastro ou atualização
+      this.sucessoAoSalvar(true);
+    },
+    error: (err) => {
+      // Se o atleta OU a prova falharem, o erro é capturado aqui centralizado
+      console.error('Falha em um dos envios:', err);
+      this.erroAoSalvar();
+    }
+  });
+
+
 }
 
 
@@ -538,10 +450,50 @@ reset() {
   this.atleta = { id: 0, cpf: '', nome: '', nascimento: '', telefone: '', rg: '', email: '', instagram: '' };
   this.novoAtleta = false; // Esconde o aviso de novo atleta ao resetar
   this.carregando = false; // Garante que o estado de carregamento seja resetado
+  this.indiceModalidade = 0;
+  this.indiceTransporte = 0;
   this.campoComErro = ''; // Limpa qualquer destaque de campo com erro
+  this.resetProva();
   this.cdr.detectChanges(); // Garante que a tela atualize imediatamente
 }
 
+resetProva() {
+  this.prova = { cpf: '',
+  nome: '',
+  nascimento: '',
+  telefone: '',
+  rg: '',
+  email: '',
+  instagram: '',
+  modalidade: this.modalidades[0].nome,
+  transporte: this.transportes[0].nome,
+  tamanhoCamisetaKit: '',
+  regiao: '',
+  estacao: '',
+  pagamento: '',
+  uniforme: 'Sim',
+  uniformeNome: '',
+  uniformeNumero: '',
+  uniformeTamanho: '',
+  uniformeInsta: '',
+  sugestao: ''
+ };
 
+  this.bloqueiaCamiseta = false; // Reseta o bloqueio da camiseta
+  this.camiseta = { nome: '', temInstagram: false, tamanho: '', numero: '' }; // Reseta os dados da camiseta
 
+}
+
+checkInstagramCamiseta() {
+
+  if(this.bloqueiaCamiseta){
+    return ''; // Se bloqueado, sempre "Não" para o Instagram na camiseta
+  }
+  else if (this.camiseta.temInstagram){
+    return 'Sim';
+  }else{
+    return 'Nao';
+  }
+
+}
 }
