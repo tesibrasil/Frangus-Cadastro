@@ -348,11 +348,12 @@ mudarTransporte(direcao: number) {
 proximoCard() {
 
   this.etapaAtual = this.etapaAtual + 1;
-  window.scrollTo(0, 75); // Volta para o topo da página
+  window.scrollTo(0, 0); // Volta para o topo da página
 }
 
 voltarCard() {
   this.etapaAtual = this.etapaAtual -1;
+
 }
 
 
@@ -386,25 +387,7 @@ enviar() {
   };
 
 
-//  if (this.novoAtleta) {
-//     // É um cadastro novo: usamos POST (salvar)
-//     this.atletaService.salvar(dadosParaSalvarAtleta).subscribe({
-//       next: () => this.sucessoAoSalvar(true),
-//       error: () => this.erroAoSalvar()
-//     });
-//   } else {
-//     // Já existe: usamos PATCH (atualizar)
-//     // Passamos o CPF original para o SheetDB encontrar a linha certa
-//     this.atletaService.atualizar(this.atleta.cpf.replace(/\D/g, ''), dadosParaSalvarAtleta).subscribe({
-//       next: () => this.sucessoAoSalvar(false),
-//       error: () => this.erroAoSalvar()
-//     });
-//   }
 
-//     this.atletaService.salvarProva(dadosParaSalvarProva).subscribe({
-//       next: () => this.sucessoAoSalvar(true),
-//       error: () => this.erroAoSalvar()
-//     });
 
 // 1. Criamos a variável que vai guardar a requisição do Atleta (POST ou PATCH)
   let requisicaoAtleta$;
