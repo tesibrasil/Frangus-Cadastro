@@ -111,48 +111,48 @@ export class CadastroComponent {
 
    verificarCpf() {
     //Limpa a máscara para a lógica de busca
-    // const cpfApenasNumeros = this.atleta.cpf.replace(/\D/g, '');
+    const cpfApenasNumeros = this.atleta.cpf.replace(/\D/g, '');
 
-    // // Se o usuário apagar o CPF, resetamos o aviso
-    // if (cpfApenasNumeros.length < 11) {
-    //   this.novoAtleta = false;
-    //   return;
-    // }
+    // Se o usuário apagar o CPF, resetamos o aviso
+    if (cpfApenasNumeros.length < 11) {
+      this.novoAtleta = false;
+      return;
+    }
 
-    // // Só dispara se tiver os 11 números completos
-    // if (cpfApenasNumeros.length === 11) {
-    //   this.carregando = true;
-    //   this.mensagemCarregando = 'To te procurando...';
-    //   this.novoAtleta = false; // Resetamos antes de buscar
+    // Só dispara se tiver os 11 números completos
+    if (cpfApenasNumeros.length === 11) {
+      this.carregando = true;
+      this.mensagemCarregando = 'To te procurando...';
+      this.novoAtleta = false; // Resetamos antes de buscar
 
-    //   // Enviamos o CPF limpo para a API
-    //   this.atletaService.buscarPorCpf(cpfApenasNumeros).subscribe({
-    //     next: (res) => {
-    //       if (res && res.length > 0) {
-    //         // Ao receber os dados, mantemos o CPF com máscara na tela
-    //         const atletaEncontrado = res[0];
-    //         this.atleta = {
-    //           ...atletaEncontrado,
-    //           cpf: this.formatarCpf(atletaEncontrado.cpf), // Formata o que vem da planilha
-    //           telefone: this.formatarTel(atletaEncontrado.telefone || ''), // Formata o telefone
-    //           rg: this.formatarRg(atletaEncontrado.rg || ''),
-    //         };
-    //         this.novoAtleta = false;
-    //         // this.cdr.detectChanges();
-    //       } else {
-    //         this.novoAtleta = true; // Mostra o formulário para novo atleta
-    //         this.limparCamposExcetoCpf();
-    //         this.carregando = false; // Para o loading mesmo se não encontrar, para mostrar o formulário de novo atleta
-    //       }
-    //       this.cdr.detectChanges();
-    //       this.carregando = false;
-    //     },
-    //     error: () => {
-    //       this.carregando = false;
-    //       this.novoAtleta = false; // Se der erro, não mostramos o formulário de novo atleta, pois pode ser um erro de conexão ou outro problema.
-    //     },
-    //   });
-    // }
+      // Enviamos o CPF limpo para a API
+      this.atletaService.buscarPorCpf(cpfApenasNumeros).subscribe({
+        next: (res) => {
+          if (res && res.length > 0) {
+            // Ao receber os dados, mantemos o CPF com máscara na tela
+            const atletaEncontrado = res[0];
+            this.atleta = {
+              ...atletaEncontrado,
+              cpf: this.formatarCpf(atletaEncontrado.cpf), // Formata o que vem da planilha
+              telefone: this.formatarTel(atletaEncontrado.telefone || ''), // Formata o telefone
+              rg: this.formatarRg(atletaEncontrado.rg || ''),
+            };
+            this.novoAtleta = false;
+            // this.cdr.detectChanges();
+          } else {
+            this.novoAtleta = true; // Mostra o formulário para novo atleta
+            this.limparCamposExcetoCpf();
+            this.carregando = false; // Para o loading mesmo se não encontrar, para mostrar o formulário de novo atleta
+          }
+          this.cdr.detectChanges();
+          this.carregando = false;
+        },
+        error: () => {
+          this.carregando = false;
+          this.novoAtleta = false; // Se der erro, não mostramos o formulário de novo atleta, pois pode ser um erro de conexão ou outro problema.
+        },
+      });
+    }
 
     this.novoAtleta = false; // Resetamos antes de buscar
    }
@@ -446,9 +446,9 @@ validarEtapa2(): boolean {
 
   proximoCard() {
 
-      // if (this.etapaAtual === 1 && !this.validarEtapa1()) {
-      //   return; // Se a validação da etapa 1 falhar, não avança
-      // }
+      if (this.etapaAtual === 1 && !this.validarEtapa1()) {
+        return; // Se a validação da etapa 1 falhar, não avança
+      }
 
       if(this.etapaAtual === 2 && !this.validarEtapa2()){
         return; // Se a validação da etapa 2 falhar, não avança
