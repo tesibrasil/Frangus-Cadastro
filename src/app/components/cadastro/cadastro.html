@@ -206,17 +206,19 @@
             </div>
 
             <div class="col-md-5 pe-4">
-              <div class="mb-3">
+              <div class=" mb-3">
                 <label class="form-label fw-semibold text-label">Tamanho da
                   camiseta (do kit Bravus)</label>
-                <div class="input-group">
+                <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'tamanhoCamisetaKit'}">
                   <span
                     class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-person-badge text-muted"></i></span>
                   <select
                     class="form-select form-control-lg border-start-0 rounded-end-3"
                     [(ngModel)]="prova.tamanhoCamisetaKit"
-                    name="tamanho"
+                    (input)="campoComErro = ''"
+                    name="tamanhoCamisetaKit"
                     [class.select-preenchido]="prova.tamanhoCamisetaKit">
                     <option value disabled selected>Selecione o tamanho</option>
                     <option value="BL">Baby Look (tamanho unico)</option>
@@ -231,13 +233,15 @@
               <div class="mb-3">
                 <label class="form-label fw-semibold text-label">Onde voce
                   mora?</label>
-                <div class="input-group">
+                <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'regiao'}">
                   <span
                     class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-wallet2 text-muted"></i></span>
                   <select
                     class="form-select form-control-lg border-start-0 rounded-end-3"
                     [(ngModel)]="prova.regiao"
+                      (input)="campoComErro = ''"
                     name="regiao" [class.select-preenchido]="prova.regiao">
                     <option value disabled selected>Conta pra gente..</option>
                     <option value="centro">CENTRO</option>
@@ -255,21 +259,24 @@
               <div class="mb-3">
                 <label class="form-label fw-semibold text-label">Qual estacao de
                   metro/trem mais proxima de voce?</label>
-                <div class="input-group">
+                <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'estacao'}">
                   <span
                     class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-fonts text-muted"></i></span>
                   <input type="text"
                     class="form-control form-control-lg border-start-0 rounded-end-3"
-                    [(ngModel)]="prova.estacao" name="Estacao"
-                    placeholder="Se for colocar mais de uma, separa com /">
+                    [(ngModel)]="prova.estacao" name="estacao"
+                    placeholder="Se for colocar mais de uma, separa com /"
+                    (input)="campoComErro = ''">
                 </div>
               </div>
 
               <div class="mb-3">
                 <label class="form-label fw-semibold text-label">Forma de
                   pagamento</label>
-                <div class="input-group">
+                <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'pagamento'}">
                   <span
                     class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-wallet2 text-muted"></i></span>
@@ -277,7 +284,8 @@
                     class="form-select form-control-lg border-start-0 rounded-end-3"
                     [(ngModel)]="prova.pagamento"
                     name="pagamento"
-                    [class.select-preenchido]="prova.pagamento">
+                    [class.select-preenchido]="prova.pagamento"
+                    (input)="campoComErro = ''">
                     <option value disabled selected>Nao seja caloteiro</option>
                     <option value="pix">PIX</option>
                     <option value="cartao">Cartao</option>
@@ -356,12 +364,14 @@
                   <div>
                     <label class="form-label fw-semibold text-label mb-1">Nome
                       na Camiseta</label>
-                    <div class="input-group input-group-lg styled-input">
+                    <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'uniformeNome'}">
                       <span class="input-group-text bg-white border-0"><i
                           class="bi bi-fonts text-muted"></i></span>
                       <input type="text"
                         class="form-control bg-white border-0 ps-0"
                         [(ngModel)]="camiseta.nome" name="uniformeNome"
+                        (input)="campoComErro = ''"
                         placeholder="Nome personalizado"
                         [disabled]="carregando || bloqueiaCamiseta">
 
@@ -371,12 +381,14 @@
                   <div>
                     <label class="form-label fw-semibold text-label mb-1">Exibir
                       Instagram?</label>
-                    <div class="input-group input-group-lg styled-input">
+                    <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'temInstagram'}">
                       <span class="input-group-text bg-white border-0"><i
                           class="bi bi-instagram text-muted"></i></span>
                       <select
                         class="form-select form-control-lg border-start-0 rounded-end-3"
                         [(ngModel)]="camiseta.temInstagram" name="uniformeInsta"
+                        (input)="campoComErro = ''"
                         [class.select-preenchido]="camiseta.temInstagram"
                         [disabled]="carregando || bloqueiaCamiseta">
                         <option value disabled selected>Selecione uma
@@ -392,12 +404,14 @@
                       class="form-label fw-semibold text-label mb-1">
                       Tamanho da Camiseta
                     </label>
-                    <div class="input-group input-group-lg styled-input">
+                    <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'tamanhoUniforme'}">
                       <span class="input-group-text bg-white border-0"><i
                           class="bi bi-person-badge text-muted"></i></span>
                       <select
                         class="form-select form-control-lg border-start-0 rounded-end-3"
-                        [(ngModel)]="camiseta.tamanho" name="uniformeTamanho"
+                        [(ngModel)]="camiseta.tamanho" name="tamanhoUniforme"
+                        (input)="campoComErro = ''"
                         [class.select-preenchido]="camiseta.tamanho"
                         [disabled]="carregando || bloqueiaCamiseta">
                         <option value disabled selected>Selecione o
@@ -419,7 +433,8 @@
                   <div>
                     <label class="form-label fw-semibold text-label mb-1">Número
                       da Camiseta (2 Dígitos)</label>
-                    <div class="input-group input-group-lg styled-input">
+                    <div class="input-group input-group-lg styled-input"
+                     [ngClass]="{'input-error': campoComErro === 'uniformeNumero'}">
                       <span class="input-group-text bg-white border-0"><i
                           class="bi bi-hash text-muted"></i>
                       </span>
@@ -428,6 +443,7 @@
                         [(ngModel)]="camiseta.numero" name="uniformeNumero"
                         placeholder="Ex: 10"
                         maxlength="2" inputmode="numeric" pattern="[0-9]{2}"
+                        (input)="campoComErro = ''"
                         [disabled]="carregando || bloqueiaCamiseta">
                     </div>
                   </div>

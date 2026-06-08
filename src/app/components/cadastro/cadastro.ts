@@ -111,49 +111,50 @@ export class CadastroComponent {
 
    verificarCpf() {
     //Limpa a máscara para a lógica de busca
-    const cpfApenasNumeros = this.atleta.cpf.replace(/\D/g, '');
+    // const cpfApenasNumeros = this.atleta.cpf.replace(/\D/g, '');
 
-    // Se o usuário apagar o CPF, resetamos o aviso
-    if (cpfApenasNumeros.length < 11) {
-      this.novoAtleta = false;
-      return;
-    }
+    // // Se o usuário apagar o CPF, resetamos o aviso
+    // if (cpfApenasNumeros.length < 11) {
+    //   this.novoAtleta = false;
+    //   return;
+    // }
 
-    // Só dispara se tiver os 11 números completos
-    if (cpfApenasNumeros.length === 11) {
-      this.carregando = true;
-      this.mensagemCarregando = 'To te procurando...';
-      this.novoAtleta = false; // Resetamos antes de buscar
+    // // Só dispara se tiver os 11 números completos
+    // if (cpfApenasNumeros.length === 11) {
+    //   this.carregando = true;
+    //   this.mensagemCarregando = 'To te procurando...';
+    //   this.novoAtleta = false; // Resetamos antes de buscar
 
-      // Enviamos o CPF limpo para a API
-      this.atletaService.buscarPorCpf(cpfApenasNumeros).subscribe({
-        next: (res) => {
-          if (res && res.length > 0) {
-            // Ao receber os dados, mantemos o CPF com máscara na tela
-            const atletaEncontrado = res[0];
-            this.atleta = {
-              ...atletaEncontrado,
-              cpf: this.formatarCpf(atletaEncontrado.cpf), // Formata o que vem da planilha
-              telefone: this.formatarTel(atletaEncontrado.telefone || ''), // Formata o telefone
-              rg: this.formatarRg(atletaEncontrado.rg || ''),
-            };
-            this.novoAtleta = false;
-            // this.cdr.detectChanges();
-          } else {
-            this.novoAtleta = true; // Mostra o formulário para novo atleta
-            this.limparCamposExcetoCpf();
-            this.carregando = false; // Para o loading mesmo se não encontrar, para mostrar o formulário de novo atleta
-          }
-          this.cdr.detectChanges();
-          this.carregando = false;
-        },
-        error: () => {
-          this.carregando = false;
-          this.novoAtleta = false; // Se der erro, não mostramos o formulário de novo atleta, pois pode ser um erro de conexão ou outro problema.
-        },
-      });
-    }
+    //   // Enviamos o CPF limpo para a API
+    //   this.atletaService.buscarPorCpf(cpfApenasNumeros).subscribe({
+    //     next: (res) => {
+    //       if (res && res.length > 0) {
+    //         // Ao receber os dados, mantemos o CPF com máscara na tela
+    //         const atletaEncontrado = res[0];
+    //         this.atleta = {
+    //           ...atletaEncontrado,
+    //           cpf: this.formatarCpf(atletaEncontrado.cpf), // Formata o que vem da planilha
+    //           telefone: this.formatarTel(atletaEncontrado.telefone || ''), // Formata o telefone
+    //           rg: this.formatarRg(atletaEncontrado.rg || ''),
+    //         };
+    //         this.novoAtleta = false;
+    //         // this.cdr.detectChanges();
+    //       } else {
+    //         this.novoAtleta = true; // Mostra o formulário para novo atleta
+    //         this.limparCamposExcetoCpf();
+    //         this.carregando = false; // Para o loading mesmo se não encontrar, para mostrar o formulário de novo atleta
+    //       }
+    //       this.cdr.detectChanges();
+    //       this.carregando = false;
+    //     },
+    //     error: () => {
+    //       this.carregando = false;
+    //       this.novoAtleta = false; // Se der erro, não mostramos o formulário de novo atleta, pois pode ser um erro de conexão ou outro problema.
+    //     },
+    //   });
+    // }
 
+    this.novoAtleta = false; // Resetamos antes de buscar
    }
 
   // Função auxiliar para limpar a tela se for um novo cadastro
@@ -357,7 +358,7 @@ validarEtapa2(): boolean {
     // Se ele NÃO marcou, precisamos validar campo por campo da camiseta
     if (!this.camiseta.nome || !this.camiseta.nome.trim()) {
        this.exibirErroValidacao('Nome na Camiseta', 'Por favor, digite o nome que deseja na camiseta.');
-      this.campoComErro = 'nomeCamiseta'; // Opcional: para você aplicar classe de erro se quiser
+      this.campoComErro = 'uniformeNome'; // Opcional: para você aplicar classe de erro se quiser
       return false;
     }
 
@@ -369,7 +370,7 @@ validarEtapa2(): boolean {
 
     if (!this.camiseta.tamanho) {
       this.exibirErroValidacao('Tamanho da Camiseta', 'Por favor, selecione o tamanho da sua camiseta.');
-      this.campoComErro = 'tamanhoCamiseta';
+      this.campoComErro = 'tamanhoUniforme';
       return false;
     }
 
@@ -377,7 +378,7 @@ validarEtapa2(): boolean {
     const numeroValido = /^[0-9]{2}$/.test(this.camiseta.numero);
     if (!this.camiseta.numero || !numeroValido) {
       this.exibirErroValidacao('Número da Camiseta', 'Por favor, insira um número de camiseta válido com exatamente 2 dígitos (Ex: 07).');
-      this.campoComErro = 'numeroCamiseta';
+      this.campoComErro = 'uniformeNumero';
       return false;
     }
 
@@ -413,7 +414,7 @@ validarEtapa2(): boolean {
       confirmButtonText: 'Fechar',
       heightAuto: false,
     });
-    this.carregando = false;
+
   }
 
   get modalidadeAtual() {
@@ -445,9 +446,9 @@ validarEtapa2(): boolean {
 
   proximoCard() {
 
-      if (this.etapaAtual === 1 && !this.validarEtapa1()) {
-        return; // Se a validação da etapa 1 falhar, não avança
-      }
+      // if (this.etapaAtual === 1 && !this.validarEtapa1()) {
+      //   return; // Se a validação da etapa 1 falhar, não avança
+      // }
 
       if(this.etapaAtual === 2 && !this.validarEtapa2()){
         return; // Se a validação da etapa 2 falhar, não avança
@@ -533,8 +534,12 @@ validarEtapa2(): boolean {
         this.sucessoAoSalvar(true);
       },
       error: (err) => {
+         console.error('Falha em um dos envios:', err);
+          this.carregando = false; // Esconde o overlay de carregamento mesmo se der erro
         // Se o atleta OU a prova falharem, o erro é capturado aqui centralizado
-        console.error('Falha em um dos envios:', err);
+        this.cdr.detectChanges();
+
+
         this.erroAoSalvar();
       },
     });
