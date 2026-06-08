@@ -1,54 +1,84 @@
 <div class="container mt-5 mb-5">
   <div class="card shadow-lg border-0 rounded-4 position-relative main-card">
 
+    <div *ngIf="carregando"
+      class="loading-overlay d-flex flex-column justify-content-center align-items-center rounded-4">
+      <div class="spinner-border text-primary mb-2"
+           style="width: 3rem; height: 3rem;"
+           role="status">
+      </div>
+      <span class="fw-bold text-dark text-uppercase">{{mensagemCarregando}}</span>
+    </div>
 
-    <div class="card-header frangos-header p-4 d-flex align-items-center rounded-top-4">
-      <img src="/assets/img/logo-frangus.png" alt="Logo Frangos" class="header-logo me-3">
+    <div
+      class="card-header frangos-header p-4 d-flex align-items-center rounded-top-4">
+      <img src="/assets/img/logo-frangus.png" alt="Logo Frangos"
+        class="header-logo me-3">
       <h3 class="mb-0 fw-bold header-title">FICHA DO FRANGOLINU</h3>
     </div>
     <div *ngIf="etapaAtual === 1" class="animate-in">
       <div class="card-body p-4 bg-white">
-        <form (reset)="reset()" (submit)="enviar()" [class.opacity-25]="carregando">
+        <form (reset)="reset()" (submit)="enviar()"
+          [class.opacity-25]="carregando">
 
           <div class="row g-3 mb-3">
             <div class="col-md-4">
               <label class="form-label fw-semibold text-label">CPF</label>
-              <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'cpf'}">
-                <span class="input-group-text bg-white border-0"><i class="bi bi-credit-card"></i></span>
-                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.cpf" name="cpf"
-                  tabindex="1" appMaskCpf (change)="verificarCpf()" (blur)="verificarCpf()" placeholder="000.000.000-00"
-                  maxlength="14" [disabled]="carregando" (input)="campoComErro = ''" inputmode="numeric">
+              <div class="input-group input-group-lg styled-input"
+                [ngClass]="{'input-error': campoComErro === 'cpf'}">
+                <span class="input-group-text bg-white border-0"><i
+                    class="bi bi-credit-card"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0"
+                  [(ngModel)]="atleta.cpf" name="cpf"
+                  tabindex="1" appMaskCpf (change)="verificarCpf()"
+                  (blur)="verificarCpf()" placeholder="000.000.000-00"
+                  maxlength="14" [disabled]="carregando"
+                  (input)="campoComErro = ''" inputmode="numeric">
 
               </div>
             </div>
             <div class="col-md-8">
-              <label class="form-label fw-semibold text-label">Nome Completo</label>
-              <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'nome'}">
-                <span class="input-group-text bg-white border-0"><i class="bi bi-person"></i></span>
-                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.nome" name="nome"
-                  tabindex="2" placeholder="Nome Completo" [disabled]="carregando" (input)="campoComErro = ''">
+              <label class="form-label fw-semibold text-label">Nome
+                Completo</label>
+              <div class="input-group input-group-lg styled-input"
+                [ngClass]="{'input-error': campoComErro === 'nome'}">
+                <span class="input-group-text bg-white border-0"><i
+                    class="bi bi-person"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0"
+                  [(ngModel)]="atleta.nome" name="nome"
+                  tabindex="2" placeholder="Nome Completo"
+                  [disabled]="carregando" (input)="campoComErro = ''">
               </div>
             </div>
           </div>
 
           <div class="row g-3 mb-3">
             <div class="col-md-6">
-              <label class="form-label fw-semibold text-label">Data de Nascimento</label>
+              <label class="form-label fw-semibold text-label">Data de
+                Nascimento</label>
               <div class="input-group input-group-lg styled-input"
                 [ngClass]="{'input-error': campoComErro === 'nascimento'}">
-                <span class="input-group-text bg-white border-0"><i class="bi bi-calendar3"></i></span>
-                <input type="date" class="form-control bg-light border-0 ps-0" name="nascimento"
-                  [(ngModel)]="atleta.nascimento" name="nasc" tabindex="3" [disabled]="carregando"
-                  (input)="campoComErro = ''" [class.data-preenchida]="atleta.nascimento">
+                <span class="input-group-text bg-white border-0"><i
+                    class="bi bi-calendar3"></i></span>
+                <input type="date" class="form-control bg-light border-0 ps-0"
+                  name="nascimento"
+                  [(ngModel)]="atleta.nascimento" name="nasc" tabindex="3"
+                  [disabled]="carregando"
+                  (input)="campoComErro = ''"
+                  [class.data-preenchida]="atleta.nascimento">
               </div>
             </div>
             <div class="col-md-6">
-              <label class="form-label fw-semibold text-label">Telefone / WhatsApp</label>
+              <label class="form-label fw-semibold text-label">Telefone /
+                WhatsApp</label>
               <div class="input-group input-group-lg styled-input"
                 [ngClass]="{'input-error': campoComErro === 'telefone'}">
-                <span class="input-group-text bg-white border-0"><i class="bi bi-whatsapp"></i></span>
-                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.telefone" name="tel"
-                  tabindex="4" appMaskTel placeholder="(00) 00000-0000" [disabled]="carregando"
+                <span class="input-group-text bg-white border-0"><i
+                    class="bi bi-whatsapp"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0"
+                  [(ngModel)]="atleta.telefone" name="tel"
+                  tabindex="4" appMaskTel placeholder="(00) 00000-0000"
+                  [disabled]="carregando"
                   (input)="campoComErro = ''">
               </div>
             </div>
@@ -57,10 +87,14 @@
           <div class="row g-3 mb-3">
             <div class="col-md-4">
               <label class="form-label fw-semibold text-label">RG</label>
-              <div class="input-group input-group-lg styled-input" [ngClass]="{'input-error': campoComErro === 'rg'}">
-                <span class="input-group-text bg-white border-0"><i class="bi bi-card-checklist"></i></span>
-                <input type="text" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.rg" name="rg"
-                  tabindex="5" appMaskRg placeholder="00.000.000-0" maxlength="12" [disabled]="carregando"
+              <div class="input-group input-group-lg styled-input"
+                [ngClass]="{'input-error': campoComErro === 'rg'}">
+                <span class="input-group-text bg-white border-0"><i
+                    class="bi bi-card-checklist"></i></span>
+                <input type="text" class="form-control bg-light border-0 ps-0"
+                  [(ngModel)]="atleta.rg" name="rg"
+                  tabindex="5" appMaskRg placeholder="00.000.000-0"
+                  maxlength="12" [disabled]="carregando"
                   (input)="campoComErro = ''">
               </div>
             </div>
@@ -68,9 +102,12 @@
               <label class="form-label fw-semibold text-label">E-mail</label>
               <div class="input-group input-group-lg styled-input"
                 [ngClass]="{'input-error': campoComErro === 'email'}">
-                <span class="input-group-text bg-white border-0"><i class="bi bi-envelope"></i></span>
-                <input type="email" class="form-control bg-light border-0 ps-0" [(ngModel)]="atleta.email" name="email"
-                  tabindex="6" placeholder="exemplo@email.com" (blur)="formatarEmail()" [disabled]="carregando"
+                <span class="input-group-text bg-white border-0"><i
+                    class="bi bi-envelope"></i></span>
+                <input type="email" class="form-control bg-light border-0 ps-0"
+                  [(ngModel)]="atleta.email" name="email"
+                  tabindex="6" placeholder="exemplo@email.com"
+                  (blur)="formatarEmail()" [disabled]="carregando"
                   (input)="campoComErro = ''">
               </div>
             </div>
@@ -80,21 +117,27 @@
             <div class="col-12">
               <label class="form-label fw-semibold text-label">Instagram</label>
               <div class="input-group input-group-lg styled-input insta-group">
-                <span class="input-group-text bg-insta border-0 text-white"><i class="bi bi-instagram"></i></span>
-                <input type="text" class="form-control bg-light border-0" [(ngModel)]="atleta.instagram" name="insta"
-                  tabindex="7" placeholder="@seu_perfil" [disabled]="carregando" (blur)="formatarInstagram()">
+                <span class="input-group-text bg-insta border-0 text-white"><i
+                    class="bi bi-instagram"></i></span>
+                <input type="text" class="form-control bg-light border-0"
+                  [(ngModel)]="atleta.instagram" name="insta"
+                  tabindex="7" placeholder="@seu_perfil" [disabled]="carregando"
+                  (blur)="formatarInstagram()">
               </div>
             </div>
           </div>
 
-
-
           <div class="d-flex justify-content-between align-items-center mt-5">
-            <button type="reset" class="btn btn-link text-decoration-none text-muted fw-light p-0"
+            <button type="reset"
+              class="btn btn-link text-decoration-none text-muted fw-light p-0"
               [disabled]="carregando">Limpar campos</button>
 
-            <button type="button" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" (click)="proximoCard()">
-              Proximo <i class="bi bi-arrow-right ms-2"></i>
+            <button type="button"
+              class="btn btn-frangos btn-lg px-5 rounded-pill shadow"
+              (click)="proximoCard()">
+              <span class="d-none d-sm-inline"> Proximo <i
+                  class="bi bi-arrow-right ms-2"></i> </span>
+              <span class="d-inline d-sm-none"> Proximo </span>
             </button>
           </div>
 
@@ -102,15 +145,16 @@
       </div>
     </div>
 
-
     <div *ngIf="etapaAtual === 2" class="animate-in">
       <div class="card-body p-4 bg-white">
-        <form (reset)="reset()" (submit)="enviar()" [class.opacity-25]="carregando">
+        <form (reset)="reset()" (submit)="enviar()"
+          [class.opacity-25]="carregando">
           <div class="row">
 
             <div
               class="col-md-7 d-flex flex-column flex-md-row justify-content-start align-items-center align-items-md-start ps-md-5 gap-4 gap-md-5">
-              <input type="hidden" [(ngModel)]="prova.modalidade" name="modalidade">
+              <input type="hidden" [(ngModel)]="prova.modalidade"
+                name="modalidade">
 
               <div class="position-relative mb-4 mb-md-0">
                 <div class="card-carrossel-estilo shadow">
@@ -119,16 +163,20 @@
                   </div>
                   <div class="corpo-carrossel p-3">
                     <div class="moldura-imagem-carrossel">
-                      <img [src]="modalidadeAtual.imagem" alt="Modalidade" class="img-carrossel-fixa">
+                      <img [src]="modalidadeAtual.imagem" alt="Modalidade"
+                        class="img-carrossel-fixa">
                     </div>
                   </div>
                   <div class="footer-carrossel p-3 text-center">
-                    <div class="descricao-pill-preta fw-bolder">{{ modalidadeAtual.nome }}</div>
+                    <div class="descricao-pill-preta fw-bolder">{{
+                      modalidadeAtual.nome }}</div>
                   </div>
                 </div>
-                <button type="button" (click)="mudarModalidade(-1)" class="seta-btn left shadow"><i
+                <button type="button" (click)="mudarModalidade(-1)"
+                  class="seta-btn left shadow"><i
                     class="bi bi-chevron-left"></i></button>
-                <button type="button" (click)="mudarModalidade(1)" class="seta-btn right shadow"><i
+                <button type="button" (click)="mudarModalidade(1)"
+                  class="seta-btn right shadow"><i
                     class="bi bi-chevron-right"></i></button>
               </div>
 
@@ -139,29 +187,38 @@
                   </div>
                   <div class="corpo-carrossel p-3">
                     <div class="moldura-imagem-carrossel">
-                      <img [src]="transporteAtual.imagem" alt="Transporte" class="img-carrossel-fixa">
+                      <img [src]="transporteAtual.imagem" alt="Transporte"
+                        class="img-carrossel-fixa">
                     </div>
                   </div>
                   <div class="footer-carrossel p-3 text-center">
-                    <div class="descricao-pill-preta fw-bolder">{{ transporteAtual.nome }}</div>
+                    <div class="descricao-pill-preta fw-bolder">{{
+                      transporteAtual.nome }}</div>
                   </div>
                 </div>
-                <button type="button" (click)="mudarTransporte(-1)" class="seta-btn left shadow"><i
+                <button type="button" (click)="mudarTransporte(-1)"
+                  class="seta-btn left shadow"><i
                     class="bi bi-chevron-left"></i></button>
-                <button type="button" (click)="mudarTransporte(1)" class="seta-btn right shadow"><i
+                <button type="button" (click)="mudarTransporte(1)"
+                  class="seta-btn right shadow"><i
                     class="bi bi-chevron-right"></i></button>
               </div>
             </div>
 
             <div class="col-md-5 pe-4">
               <div class="mb-3">
-                <label class="form-label fw-semibold text-label">Tamanho da camiseta (do kit Bravus)</label>
+                <label class="form-label fw-semibold text-label">Tamanho da
+                  camiseta (do kit Bravus)</label>
                 <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                  <span
+                    class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-person-badge text-muted"></i></span>
-                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.tamanhoCamisetaKit"
-                    name="tamanho" [class.select-preenchido]="prova.tamanhoCamisetaKit">
-                    <option value="" disabled selected>Selecione o tamanho</option>
+                  <select
+                    class="form-select form-control-lg border-start-0 rounded-end-3"
+                    [(ngModel)]="prova.tamanhoCamisetaKit"
+                    name="tamanho"
+                    [class.select-preenchido]="prova.tamanhoCamisetaKit">
+                    <option value disabled selected>Selecione o tamanho</option>
                     <option value="BL">Baby Look (tamanho unico)</option>
                     <option value="P">P</option>
                     <option value="M">M</option>
@@ -172,13 +229,17 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label fw-semibold text-label">Onde voce mora?</label>
+                <label class="form-label fw-semibold text-label">Onde voce
+                  mora?</label>
                 <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                  <span
+                    class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-wallet2 text-muted"></i></span>
-                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.regiao"
+                  <select
+                    class="form-select form-control-lg border-start-0 rounded-end-3"
+                    [(ngModel)]="prova.regiao"
                     name="regiao" [class.select-preenchido]="prova.regiao">
-                    <option value="" disabled selected>Conta pra gente..</option>
+                    <option value disabled selected>Conta pra gente..</option>
                     <option value="centro">CENTRO</option>
                     <option value="zona-leste">ZONA LESTE</option>
                     <option value="zona-sul">ZONA SUL</option>
@@ -192,23 +253,32 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label fw-semibold text-label">Qual estacao de metro/trem mais proxima de voce?</label>
+                <label class="form-label fw-semibold text-label">Qual estacao de
+                  metro/trem mais proxima de voce?</label>
                 <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                  <span
+                    class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-fonts text-muted"></i></span>
-                  <input type="text" class="form-control form-control-lg border-start-0 rounded-end-3"
-                    [(ngModel)]="prova.estacao" name="Estacao" placeholder="Se for colocar mais de uma, separa com /">
+                  <input type="text"
+                    class="form-control form-control-lg border-start-0 rounded-end-3"
+                    [(ngModel)]="prova.estacao" name="Estacao"
+                    placeholder="Se for colocar mais de uma, separa com /">
                 </div>
               </div>
 
               <div class="mb-3">
-                <label class="form-label fw-semibold text-label">Forma de pagamento</label>
+                <label class="form-label fw-semibold text-label">Forma de
+                  pagamento</label>
                 <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                  <span
+                    class="input-group-text bg-light border-end-0 rounded-start-3"><i
                       class="bi bi-wallet2 text-muted"></i></span>
-                  <select class="form-select form-control-lg border-start-0 rounded-end-3" [(ngModel)]="prova.pagamento"
-                    name="pagamento" [class.select-preenchido]="prova.pagamento">
-                    <option value="" disabled selected>Nao seja caloteiro</option>
+                  <select
+                    class="form-select form-control-lg border-start-0 rounded-end-3"
+                    [(ngModel)]="prova.pagamento"
+                    name="pagamento"
+                    [class.select-preenchido]="prova.pagamento">
+                    <option value disabled selected>Nao seja caloteiro</option>
                     <option value="pix">PIX</option>
                     <option value="cartao">Cartao</option>
                   </select>
@@ -218,19 +288,20 @@
             </div>
           </div>
 
-
-          <div class="d-flex justify-content-between align-items-center mt-4 pt-3 ">
+          <div
+            class="d-flex justify-content-between align-items-center mt-4 pt-3 ">
             <button type="button"
-              class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
-              (click)="etapaAtual = 1">
-              VOLTAR
+              class="btn btn-frangos btn-lg px-5 rounded-pill shadow"
+              (click)="voltarCard()">
+              Voltar
             </button>
-            <!-- <button type="submit"
-              class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow">
-              ENVIAR
-            </button> -->
-                        <button type="button" class="btn btn-frangos btn-lg px-5 rounded-pill shadow" (click)="proximoCard()">
-              Proximo <i class="bi bi-arrow-right ms-2"></i>
+
+            <button type="button"
+              class="btn btn-frangos btn-lg px-5 rounded-pill shadow"
+              (click)="proximoCard()">
+              <span class="d-none d-sm-inline"> Proximo <i
+                  class="bi bi-arrow-right ms-2"></i> </span>
+              <span class="d-inline d-sm-none"> Proximo </span>
             </button>
           </div>
         </form>
@@ -239,31 +310,43 @@
 
     <div *ngIf="etapaAtual === 3" class="animate-in">
       <div class="card-body p-4 bg-white rounded-bottom-4">
-        <form (reset)="reset()" (submit)="enviar()" [class.opacity-25]="carregando">
+        <form (reset)="reset()" (submit)="enviar()"
+          [class.opacity-25]="carregando">
 
           <div class="row g-4">
 
             <div class="col-12 col-md-6 pe-md-3">
 
-<div class="mb-4">
-  <button type="button"
-          class="btn px-4 py-2 fw-bold text-uppercase rounded-pill w-100 shadow"
-          [ngClass]="bloqueiaCamiseta ? 'btn-frangos text-white' : 'btn-outline-frangos'"
-          (click)="jaTenhoCamiseta()">
-    <i class="bi" [ngClass]="bloqueiaCamiseta ? 'bi-check-circle-fill me-2' : 'bi-circle me-2'"></i>
-    Ja tenho camiseta
-  </button>
-</div>
+              <div class="mb-4">
+                <button type="button"
+                  class="btn px-4 py-2 fw-bold text-uppercase rounded-pill w-100 shadow"
+                  [ngClass]="bloqueiaCamiseta ? 'btn-frangos text-white' : 'btn-outline-frangos'"
+                  (click)="jaTenhoCamiseta()">
+                  <i class="bi"
+                    [ngClass]="bloqueiaCamiseta ? 'bi-check-circle-fill me-2' : 'bi-circle me-2'">
+                  </i>
+                  Ja tenho camiseta
+                </button>
+              </div>
 
               <div class="d-flex flex-column flex-sm-row gap-3">
 
-                <div class="flex-shrink-0 mx-auto mx-sm-0 mb-3 mb-sm-0" style="width: 250px;">
-                  <div class="card shadow-sm border rounded-3 p-2 bg-white h-100">
-                    <div class="header-carrossel text-center p-2 rounded-2 mb-2" style="background-color: rgb(48, 48, 132);">
-                      <h6 class="text-white m-0 fw-bold text-uppercase small">Uniforme Oficial</h6>
+                <div class="flex-shrink-0 mx-auto mx-sm-0 mb-3 mb-sm-0"
+                  style="width: 250px;">
+                  <div
+                    class="card shadow-sm border rounded-3 p-2 bg-white h-100">
+                    <div class="header-carrossel text-center p-2 rounded-2 mb-2"
+                      style="background-color: rgb(48, 48, 132);">
+                      <h6
+                        class="text-white m-0 fw-bold text-uppercase small">Uniforme
+                        Oficial</h6>
                     </div>
-                    <div class="p-1 bg-light rounded d-flex align-items-center justify-content-center" style="height: calc(100% - 40px);">
-                      <img src="/assets/img/uniforme-frangus.jpeg" alt="Uniforme Oficial" class="img-fluid rounded" style="max-height: 250px; object-fit: contain;">
+                    <div
+                      class="p-1 bg-light rounded d-flex align-items-center justify-content-center"
+                      style="height: calc(100% - 40px);">
+                      <img src="/assets/img/uniforme-frangus.jpeg"
+                        alt="Uniforme Oficial" class="img-fluid rounded"
+                        style="max-height: 250px; object-fit: contain;">
                     </div>
                   </div>
                 </div>
@@ -271,24 +354,33 @@
                 <div class="flex-grow-1 d-flex flex-column gap-3">
 
                   <div>
-                    <label class="form-label fw-semibold text-label mb-1">Nome na Camiseta</label>
+                    <label class="form-label fw-semibold text-label mb-1">Nome
+                      na Camiseta</label>
                     <div class="input-group input-group-lg styled-input">
-                      <span class="input-group-text bg-white border-0"><i class="bi bi-fonts text-muted"></i></span>
-                      <input type="text" class="form-control bg-white border-0 ps-0"
-                             [(ngModel)]="camiseta.nome" name="uniformeNome" placeholder="Nome personalizado"
-                             [disabled]="carregando || bloqueiaCamiseta">
+                      <span class="input-group-text bg-white border-0"><i
+                          class="bi bi-fonts text-muted"></i></span>
+                      <input type="text"
+                        class="form-control bg-white border-0 ps-0"
+                        [(ngModel)]="camiseta.nome" name="uniformeNome"
+                        placeholder="Nome personalizado"
+                        [disabled]="carregando || bloqueiaCamiseta">
 
                     </div>
                   </div>
 
                   <div>
-                    <label class="form-label fw-semibold text-label mb-1">Exibir Instagram?</label>
+                    <label class="form-label fw-semibold text-label mb-1">Exibir
+                      Instagram?</label>
                     <div class="input-group input-group-lg styled-input">
-                      <span class="input-group-text bg-white border-0"><i class="bi bi-instagram text-muted"></i></span>
-                      <select class="form-select form-control-lg border-start-0 rounded-end-3"
-                              [(ngModel)]="camiseta.temInstagram" name="uniformeInsta"
-                              [class.select-preenchido]="camiseta.temInstagram" [disabled]="carregando || bloqueiaCamiseta">
-                        <option value="" disabled selected>Selecione uma opcao</option>
+                      <span class="input-group-text bg-white border-0"><i
+                          class="bi bi-instagram text-muted"></i></span>
+                      <select
+                        class="form-select form-control-lg border-start-0 rounded-end-3"
+                        [(ngModel)]="camiseta.temInstagram" name="uniformeInsta"
+                        [class.select-preenchido]="camiseta.temInstagram"
+                        [disabled]="carregando || bloqueiaCamiseta">
+                        <option value disabled selected>Selecione uma
+                          opcao</option>
                         <option value="sim">Sim, colocar @</option>
                         <option value="nao">Não colocar @</option>
                       </select>
@@ -296,13 +388,21 @@
                   </div>
 
                   <div>
-                    <label class="form-label fw-semibold text-label mb-1">Tamanho da Camiseta</label>
+                    <label
+                      class="form-label fw-semibold text-label mb-1">
+                      Tamanho da Camiseta
+                    </label>
                     <div class="input-group input-group-lg styled-input">
-                      <span class="input-group-text bg-white border-0"><i class="bi bi-person-badge text-muted"></i></span>
-                      <select class="form-select form-control-lg border-start-0 rounded-end-3"
-                              [(ngModel)]="camiseta.tamanho" name="uniformeTamanho"
-                              [class.select-preenchido]="camiseta.tamanho" [disabled]="carregando || bloqueiaCamiseta">
-                        <option value="" disabled selected>Selecione o tamanho</option>
+                      <span class="input-group-text bg-white border-0"><i
+                          class="bi bi-person-badge text-muted"></i></span>
+                      <select
+                        class="form-select form-control-lg border-start-0 rounded-end-3"
+                        [(ngModel)]="camiseta.tamanho" name="uniformeTamanho"
+                        [class.select-preenchido]="camiseta.tamanho"
+                        [disabled]="carregando || bloqueiaCamiseta">
+                        <option value disabled selected>Selecione o
+                          tamanho
+                        </option>
                         <option value="BL-PP">Baby Look - PP</option>
                         <option value="BL-P">Baby Look - P</option>
                         <option value="BL-M">Baby Look - M</option>
@@ -317,13 +417,18 @@
                   </div>
 
                   <div>
-                    <label class="form-label fw-semibold text-label mb-1">Número da Camiseta (2 Dígitos)</label>
+                    <label class="form-label fw-semibold text-label mb-1">Número
+                      da Camiseta (2 Dígitos)</label>
                     <div class="input-group input-group-lg styled-input">
-                      <span class="input-group-text bg-white border-0"><i class="bi bi-hash text-muted"></i></span>
-                      <input type="text" class="form-control bg-white border-0 ps-0"
-                             [(ngModel)]="camiseta.numero" name="uniformeNumero" placeholder="Ex: 10"
-                             maxlength="2" inputmode="numeric" pattern="[0-9]{2}"
-                             [disabled]="carregando || bloqueiaCamiseta">
+                      <span class="input-group-text bg-white border-0"><i
+                          class="bi bi-hash text-muted"></i>
+                      </span>
+                      <input type="text"
+                        class="form-control bg-white border-0 ps-0"
+                        [(ngModel)]="camiseta.numero" name="uniformeNumero"
+                        placeholder="Ex: 10"
+                        maxlength="2" inputmode="numeric" pattern="[0-9]{2}"
+                        [disabled]="carregando || bloqueiaCamiseta">
                     </div>
                   </div>
 
@@ -333,31 +438,34 @@
             </div>
 
             <div class="col-12 col-md-6 ps-md-4 d-flex flex-column">
-              <label class="form-label fw-semibold text-label mb-2">Deixe sua Sugestao ou Comentario</label>
+              <label class="form-label fw-semibold text-label mb-2">Deixe sua
+                Sugestao ou Comentario</label>
               <div class="flex-grow-1">
-                <textarea class="form-control form-control-lg rounded-3 h-100" rows="12"
-                          [(ngModel)]="prova.sugestao" name="sugestaoLivre"
-                          placeholder="Escreva aqui ideias, feedbacks ou críticas para a equipe..."
-                          [disabled]="carregando" style="min-height: 280px; resize: none;"></textarea>
+                <textarea class="form-control form-control-lg rounded-3 h-100"
+                  rows="12"
+                  [(ngModel)]="prova.sugestao" name="sugestaoLivre"
+                  placeholder="Escreva aqui ideias, feedbacks ou críticas para a equipe..."
+                  [disabled]="carregando"
+                  style="min-height: 280px; resize: none;"></textarea>
               </div>
             </div>
 
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mt-3 pt-0">
-            <button type="button" class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
-                    (click)="etapaAtual = 2">
+          <div
+            class="d-flex justify-content-between align-items-center mt-3 pt-0">
+            <button type="button"
+              class="btn btn-frangos btn-lg px-5 rounded-pill shadow"
+              (click)="voltarCard()">
               Voltar
             </button>
-      <button type="submit"
-              class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
-                    [disabled]="carregando">
+
+            <button type="submit"
+              class="btn btn-frangos btn-lg px-5 rounded-pill shadow"
+              [disabled]="carregando">
               ENVIAR
             </button>
-            <!-- <button type="button" class="btn btn-primary btn-enviar px-5 py-2 fw-bold text-uppercase rounded-pill shadow"
-                    [disabled]="carregando">
-              Finalizar
-            </button> -->
+
           </div>
 
         </form>
